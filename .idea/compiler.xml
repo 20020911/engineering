@@ -6,16 +6,28 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="demos" />
+        <module name="eureka-server" />
+        <module name="api" />
+        <module name="pojo" />
         <module name="engineeringurl" />
-        <module name="sq" />
-        <module name="sasx" />
+        <module name="eureka-user-consumer" />
+        <module name="eureka-user-controller" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="demos" target="1.8" />
+      <module name="sasx" target="1.8" />
+      <module name="sq" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="api" options="-parameters" />
       <module name="demos" options="-parameters" />
+      <module name="eureka-server" options="-parameters" />
+      <module name="eureka-user-consumer" options="-parameters" />
+      <module name="eureka-user-controller" options="-parameters" />
+      <module name="pojo" options="-parameters" />
       <module name="sasx" options="-parameters" />
       <module name="sq" options="-parameters" />
     </option>
