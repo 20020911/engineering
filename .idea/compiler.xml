@@ -6,11 +6,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="api_gateway" />
         <module name="eureka-server" />
         <module name="api" />
         <module name="pojo" />
+        <module name="spring_security" />
         <module name="engineeringurl" />
         <module name="eureka-user-consumer" />
+        <module name="spring_manger_web" />
         <module name="eureka-user-controller" />
       </profile>
     </annotationProcessing>
@@ -23,12 +26,15 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api" options="-parameters" />
+      <module name="api_gateway" options="-parameters" />
       <module name="demos" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
       <module name="eureka-user-consumer" options="-parameters" />
       <module name="eureka-user-controller" options="-parameters" />
       <module name="pojo" options="-parameters" />
       <module name="sasx" options="-parameters" />
+      <module name="spring_manger_web" options="-parameters" />
+      <module name="spring_security" options="-parameters" />
       <module name="sq" options="-parameters" />
     </option>
   </component>
