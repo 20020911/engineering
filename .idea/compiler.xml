@@ -6,15 +6,21 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="api_gateway" />
-        <module name="eureka-server" />
-        <module name="api" />
         <module name="pojo" />
-        <module name="spring_security" />
-        <module name="engineeringurl" />
         <module name="eureka-user-consumer" />
         <module name="spring_manger_web" />
+        <module name="engineering-huay" />
+        <module name="engineeringurl" />
+        <module name="spring_security" />
         <module name="eureka-user-controller" />
+        <module name="8002" />
+        <module name="8001" />
+        <module name="eureka-server" />
+        <module name="8778" />
+        <module name="api_gateway" />
+        <module name="api" />
+        <module name="8182" />
+        <module name="8181" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -25,6 +31,11 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="8001" options="-parameters" />
+      <module name="8002" options="-parameters" />
+      <module name="8181" options="-parameters" />
+      <module name="8182" options="-parameters" />
+      <module name="8778" options="-parameters" />
       <module name="api" options="-parameters" />
       <module name="api_gateway" options="-parameters" />
       <module name="demos" options="-parameters" />

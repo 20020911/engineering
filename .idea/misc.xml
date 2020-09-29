@@ -16,6 +16,8 @@
         <option value="$PROJECT_DIR$/api_gateway/pom.xml" />
         <option value="$PROJECT_DIR$/spring_security/pom.xml" />
         <option value="$PROJECT_DIR$/spring_manger_web/pom.xml" />
+        <option value="$PROJECT_DIR$/eureka-project-consumer/pom.xml" />
+        <option value="$PROJECT_DIR$/eureka-project-controller/pom.xml" />
       </list>
     </option>
   </component>
