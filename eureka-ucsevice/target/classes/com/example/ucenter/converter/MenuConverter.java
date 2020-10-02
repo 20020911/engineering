@@ -18,7 +18,7 @@ public class MenuConverter {
                 if(menu.getType()=='0'){
                     MenuNodeVo menuNodeVo = new MenuNodeVo();
                     BeanUtils.copyProperties(menu,menuNodeVo);
-                    menuNodeVo.setDisabled(menu.getAvailable()==0);
+                    menuNodeVo.setDisabled(menu.getAvailable()=='0');
                     menuNodeVos.add(menuNodeVo);
                 }
             }
