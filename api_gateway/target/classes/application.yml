@@ -1,0 +1,17 @@
+server:
+  port : 8001
+spring:
+  application:
+    name: api-gateway
+  servlet:
+    multipart.max-file-size: 1024MB
+    multipart.max-request-size: 1024MB
+
+zuul:
+  routes:
+    api-ucenter:
+      path: /ucenter/**
+      url: http://localhost:9002/ucenter
+  sensitive-headers:
+
+

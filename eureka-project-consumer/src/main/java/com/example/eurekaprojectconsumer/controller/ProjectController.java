@@ -1,14 +1,10 @@
 package com.example.eurekaprojectconsumer.controller;
 
-import com.example.api.mapper.ProjectMapperClient;
-import com.example.pojo.io.project.PorjectListVO;
+import com.example.mapper.ProjectMapperClient;
 import com.example.pojo.pojo.Project;
 import com.example.pojo.util.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/call/project")
