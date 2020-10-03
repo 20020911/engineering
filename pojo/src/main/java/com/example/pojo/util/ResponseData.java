@@ -4,6 +4,19 @@ public class ResponseData<T> implements java.io.Serializable{
     private int code;
     private String msg;
     private T data;
+    private int count;
+
+    public int getCode() {
+        return code;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 
     public int getCode(int i) {
         return code;

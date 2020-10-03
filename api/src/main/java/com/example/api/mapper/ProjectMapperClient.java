@@ -15,7 +15,10 @@ public interface ProjectMapperClient {
     ResponseData<Object> getList(
             @RequestParam(value = "manager",required = false)String manager,
             @RequestParam(value = "name",required = false)String name,
-            @RequestParam(value = "state",defaultValue = "0")Integer state);
+            @RequestParam(value = "state",defaultValue = "0")Integer state,
+            @RequestParam(value = "start",defaultValue = "0")int start,
+            @RequestParam(value = "size",defaultValue = "2")int size
+    );
     @RequestMapping(value = "/getPro",method = RequestMethod.GET)
     ResponseData<Object> getProject(
             @RequestParam(value = "id")Integer id);
@@ -25,4 +28,7 @@ public interface ProjectMapperClient {
     ResponseData<Object> updProject(@RequestBody Project project);
     @RequestMapping(value = "/delPro/{id}",method = RequestMethod.POST)
     ResponseData<Object> delProject(@PathVariable Integer id);
+    @RequestMapping(value = "/stateList",method = RequestMethod.GET)
+    ResponseData<Object> stateList();
+
 }

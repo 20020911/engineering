@@ -5,14 +5,22 @@
 <mapper namespace="com.example.eurekaprojectcontroller.mapper.ProjectMapper">
     <select id="getProjectList" resultType="com.example.pojo.io.project.PorjectListVO">
         SELECT p.*,d.name AS dictionaryType,u.name AS manager FROM `dictionary` d,`project` p,`user` u
-        WHERE p.`p_manager`=u.`id` AND p.`p_state`=d.int
+        WHERE p.`p_manager`=u.`id` AND p.`p_state`=d.id
+        <if test="name!=null and name!=''">AND p.`p_name` LIKE CONCAT('%',#{name},'%')</if>
+        <if test="manager!=null and manager!=''">AND u.name LIKE CONCAT('%',#{manager},'%')</if>
+        <if test="state!=0">AND p.`p_state`=#{state}</if>
+        limit #{start},#{size}
+    </select>
+    <select id="getProjectListCount" resultType="Integer">
+        SELECT count(*) FROM `dictionary` d,`project` p,`user` u
+        WHERE p.`p_manager`=u.`id` AND p.`p_state`=d.id
         <if test="name!=null and name!=''">AND p.`p_name` LIKE CONCAT('%',#{name},'%')</if>
         <if test="manager!=null and manager!=''">AND u.name LIKE CONCAT('%',#{manager},'%')</if>
         <if test="state!=0">AND p.`p_state`=#{state}</if>
     </select>
     <select id="getProject" resultType="com.example.pojo.io.project.PorjectListVO">
         SELECT p.*,d.name AS dictionaryType,u.name AS manager FROM `dictionary` d,`project` p,`user` u
-        WHERE p.`p_manager`=u.`id` AND p.`p_state`=d.int
+        WHERE p.`p_manager`=u.`id` AND p.`p_state`=d.id
         and p.id=#{id}
     </select>
     <update id="updProject">
@@ -27,4 +35,7 @@
         delete from `project`
         where id=#{id}
     </delete>
+    <select id="stateList" resultType="com.example.pojo.io.project.DictionaryVO">
+        select * from dictionary
+    </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.example.eurekaprojectcontroller.mapper;
 
+import com.example.pojo.io.project.DictionaryVO;
 import com.example.pojo.io.project.PorjectListVO;
 import com.example.pojo.pojo.Project;
 import org.apache.ibatis.annotations.Mapper;
@@ -11,6 +12,11 @@ import java.util.List;
 public interface ProjectMapper {
     List<PorjectListVO> getProjectList(@Param("name")String name,
                                        @Param("manager")String manager,
+                                       @Param("state")Integer state,
+                                       @Param("start")Integer start,
+                                       @Param("size")Integer size);
+    int getProjectListCount(@Param("name")String name,
+                                       @Param("manager")String manager,
                                        @Param("state")Integer state);
     String getProjectListBack(@Param("name")String name,
                               @Param("manager")String manager,
@@ -21,5 +27,6 @@ public interface ProjectMapper {
 
     int updProject(Project project);
     int delProject(@Param("id")Integer id);
+    List<DictionaryVO> stateList();
 
 }

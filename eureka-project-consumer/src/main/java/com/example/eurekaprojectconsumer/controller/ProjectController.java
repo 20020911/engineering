@@ -19,8 +19,11 @@ public class ProjectController {
     public ResponseData<Object> getList(
             @RequestParam(value = "manager",required = false)String manager,
             @RequestParam(value = "name",required = false)String name,
-            @RequestParam(value = "state",defaultValue = "0")Integer state) {
-        return projectMapperClient.getList(manager,name,state);
+            @RequestParam(value = "state",defaultValue = "0")Integer state,
+            @RequestParam(value = "start",defaultValue = "0")int start,
+            @RequestParam(value = "size",defaultValue = "2")int size) {
+        System.out.println(manager+"manager"+"----name"+name+"-----state"+state+"--start"+start+"---size"+size);
+        return projectMapperClient.getList(manager,name,state,start,size);
     }
     @RequestMapping(value = "/getPro",method = RequestMethod.GET)
     public ResponseData<Object> getProject(
@@ -40,5 +43,8 @@ public class ProjectController {
     public ResponseData<Object> delProject(@PathVariable Integer id) {
         return projectMapperClient.delProject(id);
     }
+
+    @RequestMapping("/stateList")
+    public ResponseData<Object> stateList(){return projectMapperClient.stateList();}
 
 }
