@@ -29,8 +29,12 @@
            dataType:"json",
            data:[],
            success:function(data){
+               if(data.code =="4001"){
+                   alert(JSON.stringify(data.message));
+                   location.href="login.html";
+               }
                var menus = data.data;
-               alert(JSON.stringify(menus));
+               // alert(JSON.stringify(menus));
                tree.render({
                    elem: '#test',  //绑定元素
                    data: menus,//返回的数据

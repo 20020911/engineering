@@ -49,22 +49,7 @@
                                class="layui-input">
                     </div>
                 </div>
-<<<<<<< HEAD
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><i class="layui-icon layui-icon-vercode"></i></label>
-                    <div class="layui-input-block">
-                        <div class="layui-row inline-block">
-                            <div class="layui-col-xs7">
-                                <input name="validCode" style="width:170px" type="text" lay-verify="required" placeholder="验证码" class="layui-input">
-                                <input name="deviceId" type="hidden"/>
-                            </div>
-                            <div class="layui-col-xs5" style="padding-left: 10px;">
-                                <img class="login-captcha" src="#" style="display:none">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-=======
+
 <!--                <div class="layui-form-item">-->
 <!--                    <label class="layui-form-label"><i class="layui-icon layui-icon-vercode"></i></label>-->
 <!--                    <div class="layui-input-block">-->
@@ -79,36 +64,28 @@
 <!--                        </div>-->
 <!--                    </div>-->
 <!--                </div>-->
-                 
->>>>>>> 0e4fd2c8b5356f26d500728071646b7d0f8ba2df
+
                 <div class="layui-form-item">
                     <button lay-filter="login-submit" class="layui-btn layui-btn-fluid" lay-submit>登 录</button>
                 </div>
             </form>
         </div>
     </div>
-<<<<<<< HEAD
     <div class="login-footer">
         <p>© 2018 <a href="javascript:;" target="_blank">JeeCp版权所有</a></p>
     </div>
-=======
->>>>>>> 0e4fd2c8b5356f26d500728071646b7d0f8ba2df
 </div>
 
 <script type="text/javascript" src="assets/libs/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="assets/libs/layui/layui.js"></script>
-<script type="text/javascript" src="assets/libs/login.js"></script>
 <script type="text/javascript" src="module/Math.uuid.js"></script>
 <script>
 layui.config({
     base: 'module/'
 }).use(['config', 'form'], function () {
-<<<<<<< HEAD
-=======
 
     var name ="";
     var password ="";
->>>>>>> 0e4fd2c8b5356f26d500728071646b7d0f8ba2df
 	let uuid = Math.uuid();
     var $ = layui.jquery;
     $("input[name='deviceId']").val(uuid);

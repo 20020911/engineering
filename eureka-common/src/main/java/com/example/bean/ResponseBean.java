@@ -8,6 +8,15 @@ public class ResponseBean {
     private int code;
     private String message;
     private Object data;
+    private int count;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 
     public ResponseBean() {
     }

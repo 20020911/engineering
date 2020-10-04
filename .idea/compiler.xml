@@ -25,10 +25,10 @@
         <module name="api_gateway" />
         <module name="api" />
         <module name="8182" />
-        <module name="8181" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="8181" target="1.8" />
       <module name="demos" target="1.8" />
       <module name="sasx" target="1.8" />
       <module name="sq" target="1.8" />
@@ -52,7 +52,6 @@
       <module name="eureka-sysservice" options="-parameters" />
       <module name="eureka-ucsevice" options="-parameters" />
       <module name="eureka-user-consumer" options="-parameters" />
-      <module name="eureka-user-controller" options="-parameters" />
       <module name="pojo" options="-parameters" />
       <module name="sasx" options="-parameters" />
       <module name="spring_manger_web" options="-parameters" />
