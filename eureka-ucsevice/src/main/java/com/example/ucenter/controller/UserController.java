@@ -30,7 +30,6 @@ public class UserController {
     public ResponseBean login(@NotBlank(message = "用户名必填") String name,@NotBlank(message = "密码必填")  String password, HttpServletRequest request){
         //System.out.println(name);
         String token  = iUserService.login(name,password);
-
         TokenUtil.setToken(token);
       return ResponseBean.success(token);
     }
