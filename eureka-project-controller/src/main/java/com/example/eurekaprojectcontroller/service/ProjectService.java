@@ -1,6 +1,7 @@
 package com.example.eurekaprojectcontroller.service;
 
 import com.example.eurekaprojectcontroller.mapper.ProjectMapper;
+import com.example.pojo.io.project.DictionaryVO;
 import com.example.pojo.io.project.PorjectListVO;
 import com.example.pojo.pojo.Project;
 import org.apache.ibatis.annotations.Param;
@@ -15,8 +16,15 @@ public class ProjectService {
     private ProjectMapper projectMapper;
     public List<PorjectListVO> getProjectList(@Param("name")String name,
                                               @Param("manager")String manager,
+                                              @Param("state")Integer state,
+                                              @Param("start")Integer start,
+                                              @Param("size")Integer size){
+        return projectMapper.getProjectList(name,manager,state,(start-1)*size,size);
+    }
+    public int getProjectListCount(@Param("name")String name,
+                                              @Param("manager")String manager,
                                               @Param("state")Integer state){
-        return projectMapper.getProjectList(name,manager,state);
+        return projectMapper.getProjectListCount(name,manager,state);
     }
     public PorjectListVO getProject(@Param("id")Integer id){
         return projectMapper.getProject(id);
@@ -24,4 +32,5 @@ public class ProjectService {
     public int addProject(Project project){return projectMapper.addProject(project);}
     public int updProject(Project project){return projectMapper.updProject(project);}
     public int delProject(@Param("id")Integer id) {return projectMapper.delProject(id);}
+    public List<DictionaryVO> stateList(){return projectMapper.stateList();}
 }

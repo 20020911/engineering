@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../assets/libs/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../layui/layui.js"></script>
+	<link href="../layui/css/layui.css" type="text/css" rel="stylesheet"/>
+    <link href="../layui/css/project.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<div class="col-md-12">
+    		<div class="x_panel" >
+    			<div class="x_title">
+    				<h2>
+    					项目管理维护
+    				</h2>
+    				<div class="clearfix">
+						 <span id="add">添加项目</span>
+					</div>
+    			</div>
+    			<div class="x_content">
+    				<form class="layui-form">
+    					<input type="hidden" name="pageIndex" value="1" />
+    					<ul>
+    						<li>
+    								<label>项目名称</label>
+									<div class="layui-input-inline">
+									      <input type="text" name="name" id="name" placeholder="请输入名称" autocomplete="off" class="layui-input">
+									</div>
+    						</li>
+							<li>
+									<label>项目经理</label>
+									<div class="layui-input-inline">
+									      <input type="text" name="manager" id="manager" placeholder="请输入名称" autocomplete="off" class="layui-input">
+									</div>
+							</li>
+    						<li>
+    								<label>项目状态</label>
+    								<div class="layui-input-block">
+    									<select name="state" id="state" class="form-control">
+    										<option value="2">--请选择--</option>
+    									</select>
+    								</div>
+    						</li>
+    						<li>
+								<button class="searchSubmit">
+    								查 &nbsp;&nbsp;&nbsp;&nbsp;询</button>
+							</li>
+    					</ul>
+    				</form>
+    			</div>
+    		</div>
+    	</div>
+
+
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_content">
+            <p class="text-muted font-13 m-b-30"></p>
+            <div id="datatable-responsive_wrapper"
+                 class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="layui-hide" id="test" lay-filter="test"></table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="box" hidden="hidden">
+	<span class="close">x</span>
+</div>
+<script type="text/html" id="barDemo" lay-filter="demo">
+    <a lay-event="sss">
+        <div class="layui-input-inline" >
+            <select name="operation" id="cz" lay-filter="operation">
+                <option value="1">编辑</option>
+                <option value="2">删除</option>
+            </select>
+        </div>
+    </a>
+</script>
+<script>
+    layui.use(['table','form'], function() {
+		var table = layui.table;
+		var form = layui.form;
+		var $ = layui.$;
+		$('.close').click(function(){
+			alert("close");
+			$('.box').hide();
+		})
+        initi();
+		$(".searchSubmit").click(function(){
+			initi();
+			return false;
+		})
+		$.ajax({
+			type : "GET",
+			url : "http://localhost:8002/call/project/stateList",
+			dataType : "JSON",
+			success : function(d) {
+				 var tmp = '<option value="0">--请选择--</option>';
+				 $("#state").html(tmp);
+				 for (var i in d.data) {
+					 tmp += '<option value="' + d.data[i].id +  '">' + d.data[i].name + '</option>';
+				}
+				 $("#state").html(tmp);
+				 form.render(); 
+			},
+			error:function(){
+				layer.alert('请求失败，稍后再试', {icon: 5});
+			}
+		
+		});
+        function initi() {
+                var manager = $('#manager').val();
+                var name = $('#name').val();
+                var state = $('#state').val();
+               //alert(manager+'manager'+name+'name'+state+'state');
+                table.render({
+                    elem: '#test',
+                    url: 'http://localhost:8002/call/project/getList',
+                    method: 'GET',
+                    cellMinWidth: 80,
+                    height: 400,
+                    width: 1330,
+                    cols: [[
+                        {field: 'id', hide: true, style: 'font-size:13px;'}
+                        , {field: 'p_id', title: '项目编号', width: '80px;', style: 'font-size:13px;'}
+                        , {field: 'p_address', title: '地址', style: 'font-size:13px;', width: '70px;'}
+                        , {field: 'manager',width: '100px;',title: '项目经理',style: 'font-size:13px; height:auto;overflow:visible;text-overflow:inherit; white-space:normal;'}
+                        , {field: 'p_company', title: '项目集团', style: 'font-size:13px;', width: '150px;'}
+                        , {field: 'dictionaryType', title: '项目状态', width: '180px;', style: 'font-size:13px;'}
+                        , {field: 'p_parent', hide: true, title: '用户编号', width: '80px;', style: 'font-size:13px;'}
+                        , {field: 'p_manager', hide: true, style: 'font-size:13px;'}
+                        , {field: 'p_state', hide: true, style: 'font-size:13px;'}
+                        , {field: 'p_name', title: '项目名称', width: '180px;', style: 'font-size:13px;'}
+                        , {title: '操作', align: 'center', toolbar: '#barDemo', width: '259px;'}
+                    ]],
+                    page: true,
+                    request: {
+                        pageName: 'start',
+                        limitName: 'size'
+                    },
+                    where: {
+                        manager: manager,
+                        name: name,
+                        state: state
+                    },
+                    page: 1,
+                    limit: 5,
+                    parseData:function(res){
+                        return {
+                            "code":0,
+                            "msg":res.message,
+                            "count":res.count,
+                            "data":res.data
+                        }
+                    },
+                    limits: [3, 5, 8]
+                });
+				table.on('tool(test)',function(obj){
+					var data = obj.data;
+					form.on('select(operation)', function(datas) {
+						var type = datas.value;
+						var id=data.id;
+						if (type ==1) {
+							alert("as");
+							$(".box").show();
+						} else if (type ==2) {
+							alert("2");
+						}
+						
+					});
+				});
+				
+				
+				
+        }
+    })
+
+</script>
+</body>
+</html>

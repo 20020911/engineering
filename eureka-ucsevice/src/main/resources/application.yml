@@ -29,4 +29,6 @@ mybatis:
 logging:
   level:
     root: warn
-
+ribbon:
+  eureka:
+    enabled: true

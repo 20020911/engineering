@@ -31,17 +31,18 @@ public class UserController {
         //System.out.println(name);
         String token  = iUserService.login(name,password);
         TokenUtil.setToken(token);
+
       return ResponseBean.success(token);
     }
     @ApiOperation(value="用户信息",notes = "用户登录信息")
-    @RequestMapping("/info")
+    @GetMapping("/info")
     public ResponseBean info(){
         UserInfoVo userInfoVo = iUserService.info();
         return ResponseBean.success(userInfoVo);
     }
-    @ApiOperation(value="加载用户菜单",notes="用户登录后，根据角色加载菜单树")
+    //@ApiOperation(value="加载用户菜单",notes="用户登录后，根据角色加载菜单树")
     @GetMapping("/findMenu")
-    public ResponseBean findMenu(){
+    public ResponseBean findMenu(HttpServletRequest request){
         List<MenuNodeVo> menuNodeVoList = iUserService.findMenu();
         return ResponseBean.success(menuNodeVoList);
     }

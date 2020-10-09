@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: sms-ucservice
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: com.alibaba.druid.proxy.DruidDriver
+    url: jdbc:mysql://localhost:3306/engineeringdb?userUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&userSSL=true
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: root
+    password: 123456
+    hikari:
+      pool-name: GuliHikariPool
+      maximum-pool-size: 12
+      connection-timeout: 6000
+      minimum-idle: 10
+      idle-timeout: 5000000
+      max-lifetime: 5400000
+  redis:
+
+    database: 0
+    host: localhost
+    port: 6379
+    password: 123456
+    timeout: 0
+ribbon:
+  eureka:
+    enabled: true
+server:
+  port: 8281
+
+

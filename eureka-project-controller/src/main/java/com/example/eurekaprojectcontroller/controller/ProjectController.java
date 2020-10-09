@@ -1,6 +1,7 @@
 package com.example.eurekaprojectcontroller.controller;
 
 import com.example.eurekaprojectcontroller.service.ProjectService;
+import com.example.pojo.io.project.DictionaryVO;
 import com.example.pojo.io.project.PorjectListVO;
 import com.example.pojo.pojo.Project;
 import com.example.pojo.util.ResponseData;
@@ -18,18 +19,22 @@ public class ProjectController {
     public ResponseData<Object> getList(
             @RequestParam(value = "manager",required = false)String manager,
             @RequestParam(value = "name",required = false)String name,
-            @RequestParam(value = "state",defaultValue = "0")Integer state){
+            @RequestParam(value = "state",defaultValue = "0")Integer state,
+            @RequestParam(value = "start",defaultValue = "1")int start,
+            @RequestParam(value = "size",defaultValue = "3")int size){
         ResponseData data = new ResponseData();
         try {
-            List<PorjectListVO> list = projectService.getProjectList(name,manager,state);
+            int count = projectService.getProjectListCount(name, manager, state);
+            List<PorjectListVO> list = projectService.getProjectList(name,manager,state,start,size);
             if(list!=null){
                 for (PorjectListVO p:list){
                     System.out.println(p.toString());
                 }
                 data.setCode(200);
                 data.setData(list);
+                data.setCount(count);
                 data.setMsg("查询成功");
-                System.out.println("11111");
+                System.out.println("11111"+count);
             }else{
                 data.setCode(400);
                 data.setMsg("未找到数据");
@@ -128,5 +133,24 @@ public class ProjectController {
         }
         return data;
     }
-
+    @RequestMapping(value = "/stateList",method = RequestMethod.GET)
+    public ResponseData<Object> stateList(){
+        ResponseData data = new ResponseData();
+        try {
+            List<DictionaryVO> list = projectService.stateList();
+            if(list!=null){
+                data.setMsg("查询成功");
+                data.setCode(200);
+                data.setData(list);
+            }else{
+                data.setMsg("查询失败");
+                data.setCode(400);
+            }
+        }catch (Exception e){
+            data.setMsg("异常错误");
+            data.setCode(500);
+            e.printStackTrace();
+        }
+        return data;
+    }
 }

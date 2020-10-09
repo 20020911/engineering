@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients(basePackages = "com.example.api.mapper")
+@EnableFeignClients(basePackages = "com.example.mapper")
 public class EurekaProjectConsumerApplication {
 
     public static void main(String[] args) {
