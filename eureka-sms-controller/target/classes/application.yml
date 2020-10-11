@@ -17,12 +17,12 @@ spring:
       idle-timeout: 5000000
       max-lifetime: 5400000
   redis:
-
     database: 0
     host: localhost
     port: 6379
     password: 123456
     timeout: 0
+
 ribbon:
   eureka:
     enabled: true

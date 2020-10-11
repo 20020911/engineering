@@ -1,13 +1,20 @@
 package com.example.utils;
 
+
 public class TokenUtil {
-    static String token;
+    private static String token;
+    static final ThreadLocal<String> TOKEN = new ThreadLocal<>();
+
+    public static ThreadLocal<String> getTOKEN() {
+        return TOKEN;
+    }
+
 
     public static String getToken() {
         return token;
     }
 
-    public static void setToken(String token) {
+    public static void setToken( String token) {
         TokenUtil.token = token;
     }
 }

@@ -25,4 +25,15 @@ public class UserMapperClientFallback implements UserMapperClient {
     public ResponseBean remoteUsers(String phone) {
         return ResponseBean.error(600,"访问出错");
     }
+
+    @Override
+    public ResponseBean init() {
+        return ResponseBean.error(600,"访问出错");
+    }
+
+    @Override
+    public ResponseBean menuList(String menuName, int status) {
+        return ResponseBean.error(600,"访问出错");
+    }
+
 }

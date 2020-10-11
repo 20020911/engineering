@@ -26,10 +26,8 @@ public class SMSController {
         try{
             String yzms = (String)redisTemplate.opsForHash().get("yzm:"+phone,phone);
             if(yzms==null || yzms.equals("")){
-                System.out.println("sa");
                 return ResponseBean.error(4001,"请重新发送验证码");
             }
-            System.out.println(yzms);
             if(yzm.equals(yzms)){
                 return ResponseBean.success("验证码正确");
             }else{

@@ -25,4 +25,13 @@ public class UsersController {
     public ResponseBean remoteUsers(@RequestParam String phone){
         return userMapperClient.remoteUsers(phone);
     }
+    @PostMapping("/menuList")
+    public ResponseBean menuList(@RequestParam String menuName,@RequestParam(value = "status",defaultValue = "-1",required = false) int status){
+        return userMapperClient.menuList(menuName,status);
+    }
+    @GetMapping("/init")
+    public ResponseBean init(){
+        System.out.println(":sasas");
+        return userMapperClient.init();
+    }
 }

@@ -45,6 +45,14 @@ public class ResponseBean {
         this.data = data;
     }
 
+    public static ResponseBean success(Object data,int count){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setCode(200);
+        responseBean.setMessage("查询成功");
+        responseBean.setData(data);
+        responseBean.setCount(count);
+        return responseBean;
+    }
     public ResponseBean(int code, String message, Object data) {
         this.code = code;
         this.message = message;

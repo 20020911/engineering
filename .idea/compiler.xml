@@ -9,7 +9,6 @@
         <module name="pojo" />
         <module name="eureka-ucsevice" />
         <module name="eureka-user-consumer" />
-        <module name="eureka-sysservice" />
         <module name="eureka-common" />
         <module name="spring_manger_web" />
         <module name="eureka-sms-controller" />
@@ -21,11 +20,12 @@
         <module name="8002" />
         <module name="8001" />
         <module name="eureka-server" />
-        <module name="eureka-project-controller" />
+        <module name="eureka-sysservice" />
         <module name="8778" />
         <module name="api_gateway" />
         <module name="api" />
         <module name="8182" />
+        <module name="eureka-project-controller" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

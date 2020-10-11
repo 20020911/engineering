@@ -21,10 +21,9 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
     @Bean("securityManager")
-    public DefaultWebSecurityManager getManager(){
+    public DefaultWebSecurityManager getManager(UserRealm realm){
         DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
-        //manager.setRealm(realm);
-
+        manager.setRealm(realm);
         //关闭shiro自带的session
         DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
         DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
@@ -51,13 +50,10 @@ public class ShiroConfig {
         filterRuleMap.put("/user/remoteUsers","anon");
         filterRuleMap.put("/sumer/addUser","anon");
         filterRuleMap.put("/user/addUser","anon");
-
+        filterRuleMap.put("/sumer/init","anon");
         //开发API文档接口
         filterRuleMap.put("/swagger-ui.html","anon");
         filterRuleMap.put("/webjars/**","anon");
-        filterRuleMap.put("/swagger-resources/**","anon");
-        filterRuleMap.put("/v2/**","anon");
-
         //sql监控
         filterRuleMap.put("/druid/**","anon");
         filterFactoryBean.setFilterChainDefinitionMap(filterRuleMap);
