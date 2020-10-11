@@ -1,6 +1,7 @@
 package com.example.eurekaprojectcontroller.mapper;
 
 
+import com.example.entity.User;
 import com.example.pojo.io.project.DictionaryVO;
 import com.example.pojo.io.project.PorjectListVO;
 import com.example.pojo.pojo.Project;
@@ -29,5 +30,6 @@ public interface ProjectMapper {
     int updProject(Project project);
     int delProject(@Param("id")Integer id);
     List<DictionaryVO> stateList();
-
+    List<Project> projectList();
+    List<User> userList();
 }

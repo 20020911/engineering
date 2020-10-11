@@ -1,5 +1,6 @@
 package com.example.eurekaprojectcontroller.service;
 
+import com.example.entity.User;
 import com.example.eurekaprojectcontroller.mapper.ProjectMapper;
 import com.example.pojo.io.project.DictionaryVO;
 import com.example.pojo.io.project.PorjectListVO;
@@ -29,8 +30,13 @@ public class ProjectService {
     public PorjectListVO getProject(@Param("id")Integer id){
         return projectMapper.getProject(id);
     }
-    public int addProject(Project project){return projectMapper.addProject(project);}
+    public int addProject(Project project){
+        project.setP_state(4);
+        return projectMapper.addProject(project);
+    }
     public int updProject(Project project){return projectMapper.updProject(project);}
     public int delProject(@Param("id")Integer id) {return projectMapper.delProject(id);}
     public List<DictionaryVO> stateList(){return projectMapper.stateList();}
+    public List<Project> projectList(){return projectMapper.projectList();}
+    public List<User> userList(){return projectMapper.userList();}
 }

@@ -18,7 +18,7 @@ public class ProjectController {
             @RequestParam(value = "state",defaultValue = "0")Integer state,
             @RequestParam(value = "start",defaultValue = "0")int start,
             @RequestParam(value = "size",defaultValue = "2")int size) {
-        System.out.println(manager+"manager"+"----name"+name+"-----state"+state+"--start"+start+"---size"+size);
+        //System.out.println(manager+"manager"+"----name"+name+"-----state"+state+"--start"+start+"---size"+size);
         return projectMapperClient.getList(manager,name,state,start,size);
     }
     @RequestMapping(value = "/getPro",method = RequestMethod.GET)
@@ -27,12 +27,14 @@ public class ProjectController {
         return projectMapperClient.getProject(id);
     }
 
-    @RequestMapping("/addPro")
-    public ResponseBean addProject(@RequestBody Project project){
+    @RequestMapping(value = "/addPro",method = RequestMethod.POST)
+    public ResponseBean addProject(Project project){
+        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+project.toString());
         return projectMapperClient.addProject(project);
     }
-    @RequestMapping("/updPro")
-    public ResponseBean updProject(@RequestBody Project project){
+    @RequestMapping(value = "/updPro",method = RequestMethod.POST)
+    public ResponseBean updProject(Project project){
+        System.out.println("uuuuuuuuuu"+project.toString());
         return projectMapperClient.updProject(project);
     }
     @RequestMapping("/delPro/{id}")
@@ -42,5 +44,9 @@ public class ProjectController {
 
     @RequestMapping("/stateList")
     public ResponseBean stateList(){return projectMapperClient.stateList();}
+    @RequestMapping("/projectList")
+    public ResponseBean projectList(){return projectMapperClient.projectList();}
+    @RequestMapping("/userList")
+    public ResponseBean userList(){return projectMapperClient.userList();}
 
 }

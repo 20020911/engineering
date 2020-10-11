@@ -11,6 +11,9 @@
         <if test="state!=0">AND p.`p_state`=#{state}</if>
         limit #{start},#{size}
     </select>
+    <select id="projectList" resultType="com.example.pojo.pojo.Project">
+        SELECT * FROM `project`
+    </select>
     <select id="getProjectListCount" resultType="Integer">
         SELECT count(*) FROM `dictionary` d,`project` p,`user` u
         WHERE p.`p_manager`=u.`id` AND p.`p_state`=d.id
@@ -37,5 +40,8 @@
     </delete>
     <select id="stateList" resultType="com.example.pojo.io.project.DictionaryVO">
         select * from dictionary
+    </select>
+    <select id="userList" resultType="com.example.entity.User">
+        select * from user
     </select>
 </mapper>
