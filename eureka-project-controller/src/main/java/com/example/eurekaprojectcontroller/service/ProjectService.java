@@ -6,6 +6,7 @@ import com.example.pojo.io.project.DictionaryVO;
 import com.example.pojo.io.project.PorjectListVO;
 import com.example.pojo.pojo.Project;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -39,4 +40,7 @@ public class ProjectService {
     public List<DictionaryVO> stateList(){return projectMapper.stateList();}
     public List<Project> projectList(){return projectMapper.projectList();}
     public List<User> userList(){return projectMapper.userList();}
+    public User getUserByName(@Param("name") String name){
+        return projectMapper.getUserByName(name);
+    }
 }

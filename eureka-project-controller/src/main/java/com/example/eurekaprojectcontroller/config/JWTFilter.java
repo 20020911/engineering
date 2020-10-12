@@ -1,32 +1,21 @@
-package com.example.ucenter.config.shiro;
+package com.example.eurekaprojectcontroller.config;
 
-import com.example.EurekaUcseviceApplication;
-import com.example.bean.ActiveUser;
 import com.example.bean.ResponseBean;
 import com.example.config.jwt.JWTToken;
-import com.example.utils.AddressUtil;
-import com.example.utils.TokenUtil;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
-import org.apache.tomcat.jni.Address;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
-import javax.naming.AuthenticationException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -74,9 +63,9 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         HttpServletResponse responses = (HttpServletResponse) response;
         responses.setHeader("Access-Control-Allow-Origin","*");
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        String token =httpServletRequest.getHeader("token");
-
-           //httpServletRequest.getHeader("Authorization");
+        String token = httpServletRequest.getHeader("token");
+        System.out.println(token);
+        //httpServletRequest.getHeader("Authorization");
         //2.如果客户端没有携带token，拦下请求
         if(null==token|| "".equals(token)){
             responseTokenError(response,"Token无效，您无权访问该接口");
