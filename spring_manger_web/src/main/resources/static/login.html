@@ -24,7 +24,7 @@
         <title>Document</title>
     </head>
     <body>
-    
+
     </body>
     </html>
     <!--</div>-->
@@ -78,6 +78,7 @@
 
 <script type="text/javascript" src="assets/libs/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="assets/libs/layui/layui.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
 <script type="text/javascript" src="module/Math.uuid.js"></script>
 <script>
 layui.config({
@@ -91,6 +92,7 @@ layui.config({
     $("input[name='deviceId']").val(uuid);
     var form = layui.form;
     var config = layui.config;
+    var expTime = 43200;
     if (config.getToken()) {
         location.replace('./');
         return;
@@ -98,10 +100,8 @@ layui.config({
 
     // 表单提交
     form.on('submit(login-submit)', function (obj) {
-        //alert(config.scope);
         name = $("#name").val();
         password =$("#password").val()
-       // var field = obj.field;
 
         $.ajax({
         	url: "http://localhost:9002/ucenter/user/login",
@@ -112,6 +112,7 @@ layui.config({
             type: 'POST',
             success: function (data) {
                alert("登录成功！");
+               $.cookie("token",data.message,{path:'/',expires:expTime}),
                location.href="frame.html"
             },error:function(data){
         	    alert("登录失败");

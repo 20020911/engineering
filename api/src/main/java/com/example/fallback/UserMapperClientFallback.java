@@ -6,14 +6,34 @@ import com.example.mapper.UserMapperClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Component
 public class UserMapperClientFallback implements UserMapperClient {
+
     @Override
-    public ResponseBean getUserByUser(@RequestBody User user) {
-        ResponseBean responseData = new ResponseBean();
-        responseData.setCode(600);
-        responseData.setMessage("访问出错");
-        responseData.setData(null);
-        return responseData;
+    public ResponseBean addUser(User user) {
+        return ResponseBean.error(600,"访问出错");
     }
+
+    @Override
+    public ResponseBean remoteUser(String name) {
+        return ResponseBean.error(600,"访问出错");
+    }
+
+    @Override
+    public ResponseBean remoteUsers(String phone) {
+        return ResponseBean.error(600,"访问出错");
+    }
+
+    @Override
+    public ResponseBean init() {
+        return ResponseBean.error(600,"访问出错");
+    }
+
+    @Override
+    public ResponseBean menuList(String menuName, int status) {
+        return ResponseBean.error(600,"访问出错");
+    }
+
 }

@@ -25,6 +25,7 @@ public class ShiroConfig {
     public DefaultWebSecurityManager getManager(UserRealm realm){
         DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
         manager.setRealm(realm);
+
         //关闭shiro自带的session
         DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
         DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
@@ -47,11 +48,11 @@ public class ShiroConfig {
         //访问401和404页面不通过我们的Filter
         filterRuleMap.put("/ucenter/user/login","anon");
         filterRuleMap.put("/ucenter/user/imgCode","anon");
+        filterRuleMap.put("/ucenter/user/token","anon");
+
         //开发API文档接口
         filterRuleMap.put("/swagger-ui.html","anon");
         filterRuleMap.put("/webjars/**","anon");
-        filterRuleMap.put("/swagger-resources/**","anon");
-        filterRuleMap.put("/v2/**","anon");
         //sql监控
         filterRuleMap.put("/druid/**","anon");
         filterFactoryBean.setFilterChainDefinitionMap(filterRuleMap);

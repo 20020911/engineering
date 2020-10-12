@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>框架</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+</head>
+<body  class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">工程考勤劳务管理系统</div>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div>
+            <div id="test" style="margin-left:5%;display:inline-block;"></div>
+        </div>
+    </div>
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <iframe name="content" width="1335" height="645">
+
+        </iframe>
+    </div>
+</div>
+<script type="text/javascript" src="assets/libs/jquery-3.2.1.min.js"></script>
+<script src="layui/layui.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script>
+    layui.use('tree',function(){
+        var tree = layui.tree;
+        var $ = layui.$;
+        var inst1;
+        var token = $.cookie('token');
+        $.ajax({
+            url:"http://localhost:8182/sumer/init",
+            type:"get",
+            //headers: {'Authorization': "12"},
+            dataType:"json",
+            data:{},
+            beforeSend: function(xhr){
+                //alert("发送之前的设置...... "+token);
+                xhr.setRequestHeader('token', token);
+            },
+            success:function(data){
+                alert(JSON.stringify(data));
+                if(data.code =="4001"){
+                    alert(JSON.stringify(data.message));
+                    location.href="login.html";
+                }
+                if(data.code =="600"){
+                    alert(JSON.stringify(data.message));
+                    location.href="login.html";
+                }
+              alert(JSON.stringify(data));
+
+            },error:function(data){
+                alert("发生异常")
+            }
+        })
+
+
+    })
+</script>
+</body>
+</html>

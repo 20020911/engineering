@@ -12,6 +12,9 @@ zuul:
     api-ucenter:
       path: /ucenter/**
       url: http://localhost:9002/ucenter
+    api-user:
+      path: /user/**
+      url: http://localhost:8182/user
   sensitive-headers:
 
 

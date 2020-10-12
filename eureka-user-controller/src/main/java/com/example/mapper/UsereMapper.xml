@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.UsereMapper">
+    <select id="menuList" resultType="com.example.vo.MenuListVo">
+        select * from menu
+        <where><if test="menuName!=null and menuName != ''">
+        and menuName like concat('%',#{menuName},'%')</if>
+        <if test="status!=-1">status = #{status}</if>
+        </where>
+    </select>
+    <select id="menuListCount" resultType="Integer">
+        select count(*) from menu
+        <where><if test="menuName!=null and menuName != ''">
+            and menuName like concat('%',#{menuName},'%')</if>
+            <if test="status!=-1">status = #{status}</if>
+        </where>
+    </select>
+</mapper>

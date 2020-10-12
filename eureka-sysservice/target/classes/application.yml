@@ -1,0 +1,37 @@
+server:
+  port: 9003
+spring:
+  application:
+    name: eureka-sysservice
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: dbc:mysql://localhost:3306/engineeringdb?userUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&userSSL=true
+    type: com.zaxxer.hikari.HikariDataSource
+    username: root
+    password: 123456
+    hikari:
+      pool-name: GuliHikariPool
+      maximum-pool-size: 12
+      connection-timeout: 6000
+      minimum-idle: 10
+      idle-timeout: 5000000
+      max-lifetime: 5400000
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+mybatis:
+  mapper-locations: classpath:com/example/mapper/*.xml
+  type-aliases-package: org.example.entity
+  configuration:
+    map-underscore-to-camel-case: true
+logging:
+  level:
+    root: warn
+euraka:
+  client:
+    service-url:
+      defaultZone: http://admin:admin@localhost:8778/eureka
+  instance:
+    prefer-ip-address: true

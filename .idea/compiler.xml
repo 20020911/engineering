@@ -11,8 +11,8 @@
         <module name="eureka-user-consumer" />
         <module name="eureka-common" />
         <module name="spring_manger_web" />
-        <module name="eureka-project-controller" />
-        <module name="apis" />
+        <module name="eureka-sms-controller" />
+        <module name="eureka-sms-consumer" />
         <module name="eureka-project-consumer" />
         <module name="spring_security" />
         <module name="eureka-logging" />
@@ -25,10 +25,12 @@
         <module name="api_gateway" />
         <module name="api" />
         <module name="8182" />
+        <module name="eureka-project-controller" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="8181" target="1.8" />
+      <module name="apis" target="1.7" />
       <module name="demos" target="1.8" />
       <module name="sasx" target="1.8" />
       <module name="sq" target="1.8" />
@@ -49,9 +51,12 @@
       <module name="eureka-project-consumer" options="-parameters" />
       <module name="eureka-project-controller" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
+      <module name="eureka-sms-consumer" options="-parameters" />
+      <module name="eureka-sms-controller" options="-parameters" />
       <module name="eureka-sysservice" options="-parameters" />
       <module name="eureka-ucsevice" options="-parameters" />
       <module name="eureka-user-consumer" options="-parameters" />
+      <module name="eureka-user-controller" options="-parameters" />
       <module name="pojo" options="-parameters" />
       <module name="sasx" options="-parameters" />
       <module name="spring_manger_web" options="-parameters" />

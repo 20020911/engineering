@@ -17,6 +17,18 @@ public class MenuNodeVo {
     private boolean disabled; //禁用或启用
     private String perms; //权限标志
     private int type; //菜单还是按钮
+    private String link;
+    private String href;
+
+    public String getHref() {
+        return href;
+    }
+
+
+    public String getLink() {
+        return link;
+    }
+
 
 
     public int getId() {
@@ -50,6 +62,8 @@ public class MenuNodeVo {
 
     public void setUrl(String url) {
         this.url = url;
+        this.link  = url;
+        this.href = url;
     }
 
     public int getOrderNum() {

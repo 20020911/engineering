@@ -3,6 +3,10 @@ package com.example.utils;
 
 import java.io.*;
 import java.lang.reflect.Method;
+import java.net.*;
+import java.util.Enumeration;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -52,7 +56,87 @@ public class AddressUtil {
             }
         }
     }
+    public static String getV4IP() {
+        String ip = "";
+        String chinaz = "http://ip.chinaz.com/";
+
+        String inputLine = "";
+        String read = "";
+        try {
+            URL url = new URL(chinaz);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            while ((read = in.readLine()) != null) {
+                inputLine += read;
+            }
+            System.out.println(inputLine);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Pattern p = Pattern.compile("\\<strong class\\=\"red\">(.*?)\\<\\/strong>");
+        Matcher m = p.matcher(inputLine);
+        if(m.find()){
+            String ipstr = m.group(1);
+            System.out.println(ipstr);
+        }
+        return ip;
+    }
+    public static String getLocalIpAddr() {
+
+        String clientIP = null;
+        Enumeration<NetworkInterface> networks = null;
+        try {
+            //获取所有网卡设备
+            networks = NetworkInterface.getNetworkInterfaces();
+            if (networks == null) {
+                //没有网卡设备 打印日志  返回null结束
+                System.out.println("networks  is null");
+                return null;
+            }
+        } catch (SocketException e) {
+            System.out.println(e.getMessage());
+        }
+        InetAddress ip;
+        Enumeration<InetAddress> addrs;
+        // 遍历网卡设备
+        while (networks.hasMoreElements()) {
+            NetworkInterface ni = networks.nextElement();
+            try {
+                //过滤掉 loopback设备、虚拟网卡
+                if (!ni.isUp() || ni.isLoopback() || ni.isVirtual()) {
+                    continue;
+                }
+            } catch (SocketException e) {
+               e.getMessage();
+            }
+            addrs = ni.getInetAddresses();
+            if (addrs == null) {
+                System.out.println("InetAddress is null");
+                continue;
+            }
+            // 遍历InetAddress信息
+            while (addrs.hasMoreElements()) {
+                ip = addrs.nextElement();
+                if (!ip.isLoopbackAddress() && ip.isSiteLocalAddress() && ip.getHostAddress().indexOf(":") == -1) {
+                    try {
+                        clientIP = ip.toString().split("/")[1];
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        clientIP = null;
+                    }
+                }
+            }
+        }
+        return clientIP;
+    }
     public static void main(String[] args) {
-        System.err.println(getCityInfo("36.158.146.79"));
+        try {
+            String ip = AddressUtil.getLocalIpAddr();
+            System.out.println(ip);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.err.println(getCityInfo("192.168.40.1"));
     }
 }

@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api_gateway/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/apis/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/eureka-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/eureka-logging/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/eureka-project-consumer/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/eureka-project-controller/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/eureka-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/eureka-sms-consumer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/eureka-sms-controller/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/eureka-sysservice/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/eureka-ucsevice/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/eureka-user-consumer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/eureka-user-controller/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pojo/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring_manger_web/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring_manger_web/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring_security/src/main/java" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

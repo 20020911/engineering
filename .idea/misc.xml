@@ -21,7 +21,15 @@
         <option value="$PROJECT_DIR$/eureka-logging/pom.xml" />
         <option value="$PROJECT_DIR$/eureka-ucsevice/pom.xml" />
         <option value="$PROJECT_DIR$/eureka-sysservice/pom.xml" />
+        <option value="$PROJECT_DIR$/eureka-sms-controller/pom.xml" />
+        <option value="$PROJECT_DIR$/eureka-sms-consumer/pom.xml" />
+        <option value="$PROJECT_DIR$/eureka-user-controller/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/apis/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
