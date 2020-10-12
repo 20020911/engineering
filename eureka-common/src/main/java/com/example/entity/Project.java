@@ -73,4 +73,18 @@ public class Project implements java.io.Serializable{
     public void setP_state(int p_state) {
         this.p_state = p_state;
     }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", p_name='" + p_name + '\'' +
+                ", p_id='" + p_id + '\'' +
+                ", p_parent=" + p_parent +
+                ", p_address='" + p_address + '\'' +
+                ", p_manager=" + p_manager +
+                ", p_company='" + p_company + '\'' +
+                ", p_state=" + p_state +
+                '}';
+    }
 }

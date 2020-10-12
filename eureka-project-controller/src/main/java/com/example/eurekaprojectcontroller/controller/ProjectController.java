@@ -1,5 +1,7 @@
 package com.example.eurekaprojectcontroller.controller;
 
+import com.example.bean.ResponseBean;
+import com.example.entity.User;
 import com.example.eurekaprojectcontroller.service.ProjectService;
 import com.example.pojo.io.project.DictionaryVO;
 import com.example.pojo.io.project.PorjectListVO;
@@ -27,9 +29,6 @@ public class ProjectController {
             int count = projectService.getProjectListCount(name, manager, state);
             List<PorjectListVO> list = projectService.getProjectList(name,manager,state,start,size);
             if(list!=null){
-                for (PorjectListVO p:list){
-                    System.out.println(p.toString());
-                }
                 data.setCode(200);
                 data.setData(list);
                 data.setCount(count);
@@ -73,21 +72,21 @@ public class ProjectController {
         return data;
     }
 
-    @RequestMapping("/addPro")
-    public ResponseData<Object> addProject(@RequestBody Project project){
-        ResponseData data = new ResponseData();
+    @RequestMapping(value = "/addPro",method = RequestMethod.POST)
+    public ResponseBean addProject(@RequestBody Project project){
+        ResponseBean data = new ResponseBean();
         try {
             int count = projectService.addProject(project);
             if(count>0){
-                data.setMsg("添加成功");
+                data.setMessage("添加成功");
                 data.setCode(200);
                 data.setData(count);
             }else{
-                data.setMsg("添加失败");
+                data.setMessage("添加失败");
                 data.setCode(400);
             }
         }catch (Exception e){
-            data.setMsg("异常错误");
+            data.setMessage("异常错误");
             data.setCode(500);
             e.printStackTrace();
         }
@@ -138,6 +137,46 @@ public class ProjectController {
         ResponseData data = new ResponseData();
         try {
             List<DictionaryVO> list = projectService.stateList();
+            if(list!=null){
+                data.setMsg("查询成功");
+                data.setCode(200);
+                data.setData(list);
+            }else{
+                data.setMsg("查询失败");
+                data.setCode(400);
+            }
+        }catch (Exception e){
+            data.setMsg("异常错误");
+            data.setCode(500);
+            e.printStackTrace();
+        }
+        return data;
+    }
+    @RequestMapping(value = "/projectList",method = RequestMethod.GET)
+    public ResponseData<Object> projectList(){
+        ResponseData data = new ResponseData();
+        try {
+            List<Project> list = projectService.projectList();
+            if(list!=null){
+                data.setMsg("查询成功");
+                data.setCode(200);
+                data.setData(list);
+            }else{
+                data.setMsg("查询失败");
+                data.setCode(400);
+            }
+        }catch (Exception e){
+            data.setMsg("异常错误");
+            data.setCode(500);
+            e.printStackTrace();
+        }
+        return data;
+    }
+    @RequestMapping(value = "/userList",method = RequestMethod.GET)
+    public ResponseData<Object> userList(){
+        ResponseData data = new ResponseData();
+        try {
+            List<User> list = projectService.userList();
             if(list!=null){
                 data.setMsg("查询成功");
                 data.setCode(200);

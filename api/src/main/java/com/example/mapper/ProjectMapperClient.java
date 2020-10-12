@@ -29,5 +29,9 @@ public interface ProjectMapperClient {
     ResponseBean delProject(@PathVariable Integer id);
     @RequestMapping(value = "/stateList",method = RequestMethod.GET)
     ResponseBean stateList();
+    @RequestMapping(value = "/projectList",method = RequestMethod.GET)
+    ResponseBean projectList();
+    @RequestMapping(value = "/userList",method = RequestMethod.GET)
+    ResponseBean userList();
 
 }
