@@ -29,5 +29,6 @@ public interface UsereMapper {
     public List<MenuListVo> menuList(@Param("menuName")String menuName, @Param("status") int status);
 
     public int menuListCount(@Param("menuName")String menuName, @Param("status") int status);
-
+    @Select("select count(*) from menu where parentId=#{id}")
+    public int coutMenuListById(@Param("id") int id);
 }

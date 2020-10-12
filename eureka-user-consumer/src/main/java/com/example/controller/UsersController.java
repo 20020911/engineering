@@ -31,7 +31,10 @@ public class UsersController {
     }
     @GetMapping("/init")
     public ResponseBean init(){
-        System.out.println(":sasas");
         return userMapperClient.init();
+    }
+    @GetMapping("/menu/countMenuList/{id}")
+    public ResponseBean countMenuList(@PathVariable("id") int id){
+        return userMapperClient.countMenuList(id);
     }
 }

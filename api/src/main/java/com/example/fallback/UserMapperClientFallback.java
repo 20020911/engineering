@@ -36,4 +36,9 @@ public class UserMapperClientFallback implements UserMapperClient {
         return ResponseBean.error(600,"访问出错");
     }
 
+    @Override
+    public ResponseBean countMenuList(int id) {
+        return ResponseBean.error(600,"访问出错");
+    }
+
 }

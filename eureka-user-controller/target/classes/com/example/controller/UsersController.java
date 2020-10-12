@@ -23,7 +23,12 @@ public class UsersController {
             List<MenuListVo> menuListVoList = usersService.menuList(menuName,status);
             int count = usersService.menuListCount(menuName,status);
             if(!CollectionUtils.isEmpty(menuListVoList)){
-                return ResponseBean.success(menuListVoList,count);
+                ResponseBean responseBean = new ResponseBean();
+                responseBean.setCount(count);
+                responseBean.setData(menuListVoList);
+                responseBean.setMessage("ok");
+                responseBean.setCode(0);
+                return responseBean;
             }else{
                 return ResponseBean.success("无数据");
             }

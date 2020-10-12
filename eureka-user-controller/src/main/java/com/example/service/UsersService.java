@@ -13,4 +13,5 @@ public interface UsersService {
     public List<MenuListVo> menuList(String menuName,int status);
     public int menuListCount(String menuName,int status);
     public User getUserByName(@Param("name") String name);
+    public int coutMenuListById(@Param("id") int id);
 }

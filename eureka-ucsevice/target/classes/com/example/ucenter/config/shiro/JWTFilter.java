@@ -76,8 +76,6 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String token =httpServletRequest.getHeader("token");
 
-
-
            //httpServletRequest.getHeader("Authorization");
         //2.如果客户端没有携带token，拦下请求
         if(null==token|| "".equals(token)){

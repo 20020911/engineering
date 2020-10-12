@@ -12,76 +12,94 @@
     </div>
 
     <div class="xm-d2">
-
         <div class="xm-d2-hang2">
-            <table id="permissionTable" class="layui-table" lay-filter="permissionTable"></table>
+            <table id="table1" class="layui-table" lay-filter="table1"></table>
         </div>
     </div>
 
     <script type="text/javascript" src="assets/libs/jquery-3.2.1.min.js"></script>
     <script src="layui/layui.js" type="text/javascript"></script>
     <script type="text/javascript" src="js/jquery.cookie.js"></script>
-
+    <script type="text/html" id="tbBar">
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
 <script>
     layui.config({
         base:'layui/'
     }).extend({
-        treetable:"treetable-lay/treetable"
+        treeTable:"treetable-lay/treeTable"
     });
-    layui.use(['treetable', 'table', 'layer'], function () {
+    layui.use(['treeTable', 'table', 'layer'], function () {
         var $ = layui.$;
         var table = layui.table;
         var layer = layui.layer;
-        var treetable = layui.treetable;
+        var treeTable = layui.treeTable;
         var menuName ="";
         var status = -1;
         var token = $.cookie('token');
-        init();
-        function init(){
-            $.ajax({
-                url: 'http://localhost:8182/sumer/menuList',
-                method:"post",
-                data:{
-                    "menuName":menuName,
-                    "status":status
-                },
-                dataType:"json",
-                beforeSend: function(xhr){
-                    xhr.setRequestHeader('token',token);
-                },
-                success:function(data){
-                    if(data.code =="4001"){
-                        alert(JSON.stringify(data.message));
-                        location.href="login.html";
-                    }
-                    treetables(data.data);
-                    alert(JSON.stringify(data));
-                },error:function(data){
-                    alert("发送异常");
-                }
-            })
-        }
-        function treetables(data) {
 
-            treetable.render({
-                treeColIndex: 1,          // treetable新增参数
-                treeSpid: 0,             // treetable新增参数
-                treeIdName: 'id',       // treetable新增参数
-                treePidName: 'parentId',     // treetable新增参数
-                treeDefaultClose: true,   // treetable新增参数
-                treeLinkage: true,        // treetable新增参数
-                elem: '#permissionTable',
-                data: data,
-                type: "post",
-                cols: [[
-                    {type: 'numbers'},
-                    {field: 'id', title: 'id'},
-                    {field: 'name', title: 'name'},
-                    {field: 'sex', title: 'sex'},
-                    {field: 'pid', title: 'pid'},
-                ]]
-            });
-        }
+        var insTb = treeTable.render({
+            elem: '#table1',
+            tree: {
+                iconIndex: 1,  // 折叠图标显示在第几列
+                idName: 'id',  // 自定义id字段的名称
+                pidName: 'parentId',  // 自定义标识是否还有子节点的字段名称
+                haveChildName: 'haveChild',  // 自定义标识是否还有子节点的字段名称
+                isPidData: true  // 是否是pid形式数据
+            },
+            defaultToolbar: ['filter', 'print', 'exports', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [
+                {type: 'checkbox', fixed: 'left'},
+                {field: 'id', title: 'id'},
+                {field: 'menuName', title: '名称', width: 220},
+                {field: 'url', title: '路径'},
+                {field: 'parentId', title: 'parentId'},
+                {field: 'createdDate', title: '创建时间'},
+                {field: 'orderNum', title: '序号'},
+                {align: 'center', toolbar: '#tbBar', title: '操作', width: 120}
+            ],
+            reqData: function(data, callback) {
+                // 在这里写ajax请求，通过callback方法回调数据
+                $.ajax({
+                    url: 'http://localhost:8182/sumer/menuList',
+                    method:"post",
+                    data:{
+                        "menuName":menuName,
+                        "status":status
+                    },
+                    dataType:"json",
+                    beforeSend: function(xhr){
+                        xhr.setRequestHeader('token',token);
+                    },
+                    success:function(datas){
+                        if(datas.code =="4001"){
+                            alert(JSON.stringify(data.message));
+                            location.href="login.html";
+                        }
+
+                        callback(datas.data);
+                    },error:function(data){
+                        alert("发送异常");
+                    }
+                })
+            }
+            ,height: 'full-99'
+        });
+       treeTable.on('tool(table1)',function(obj){
+           var even = obj.event;
+          if(even=="edit"){
+            alert(JSON.stringify(obj.data));
+          }
+          if(even=="del"){
+              alert()
+           }
+       })
+       
     })
 </script>
 </div>

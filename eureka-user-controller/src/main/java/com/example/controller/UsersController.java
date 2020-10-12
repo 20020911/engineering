@@ -23,7 +23,12 @@ public class UsersController {
             List<MenuListVo> menuListVoList = usersService.menuList(menuName,status);
             int count = usersService.menuListCount(menuName,status);
             if(!CollectionUtils.isEmpty(menuListVoList)){
-                return ResponseBean.success(menuListVoList,count);
+                ResponseBean responseBean = new ResponseBean();
+                responseBean.setCount(count);
+                responseBean.setData(menuListVoList);
+                responseBean.setMessage("ok");
+                responseBean.setCode(0);
+                return responseBean;
             }else{
                 return ResponseBean.success("无数据");
             }
@@ -32,7 +37,10 @@ public class UsersController {
             return ResponseBean.error(500,e.getMessage());
         }
     }
-
+    @GetMapping("/menu/countMenuList/{id}")
+    public ResponseBean countMenuList(@PathVariable("id") int id){
+        return ResponseBean.success(usersService.coutMenuListById(id));
+    }
     @PostMapping("/user/addUser")
     public ResponseBean addUser(@RequestBody User user){
         try{

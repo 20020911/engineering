@@ -3,9 +3,12 @@ package com.example.service;
 import com.example.entity.User;
 import com.example.mapper.UsereMapper;
 import com.example.vo.MenuListVo;
+import com.example.vo.MenuNodeVo;
+import org.apache.shiro.util.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -29,7 +32,11 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public List<MenuListVo> menuList(String menuName, int status) {
-        return usereMapper.menuList(menuName,status);
+        List<MenuListVo> menuListVos =usereMapper.menuList(menuName,status);
+        if(!CollectionUtils.isEmpty(menuListVos)){
+            Collections.sort(menuListVos, MenuListVo.order());
+        }
+        return menuListVos;
     }
 
     @Override
@@ -40,5 +47,10 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public User getUserByName(String name) {
         return usereMapper.getUserByName(name);
+    }
+
+    @Override
+    public int coutMenuListById(int id) {
+        return usereMapper.coutMenuListById(id);
     }
 }

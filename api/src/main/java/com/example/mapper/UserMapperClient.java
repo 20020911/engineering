@@ -21,4 +21,6 @@ public interface UserMapperClient {
     public ResponseBean init();
     @PostMapping("/menu/menuList")
     public ResponseBean menuList(@RequestParam String menuName,@RequestParam int status);
+    @GetMapping("/menu/countMenuList/{id}")
+    public ResponseBean countMenuList(@PathVariable("id") int id);
 }
