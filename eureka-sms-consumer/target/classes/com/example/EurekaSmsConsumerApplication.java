@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
-public class EurekaSmsConsumerApplication {
+public class EurekaSmsConsumerApplication    {
 
     public static void main(String[] args) {
         SpringApplication.run(EurekaSmsConsumerApplication.class, args);

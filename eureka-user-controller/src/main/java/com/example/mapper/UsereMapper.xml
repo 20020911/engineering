@@ -5,14 +5,66 @@
         select * from menu
         <where><if test="menuName!=null and menuName != ''">
         and menuName like concat('%',#{menuName},'%')</if>
-        <if test="status!=-1">status = #{status}</if>
+            <if test="url!=null and url != ''">
+                and url like concat('%',#{url},'%')</if>
         </where>
     </select>
     <select id="menuListCount" resultType="Integer">
         select count(*) from menu
         <where><if test="menuName!=null and menuName != ''">
             and menuName like concat('%',#{menuName},'%')</if>
-            <if test="status!=-1">status = #{status}</if>
+            <if test="url!=null and url != ''">
+                and url like concat('%',#{url},'%')</if>
         </where>
+    </select>
+    <select id="getRoleListByNameAndStatus" resultType="com.example.entity.Role">
+        select * from role
+        <where>
+            <if test="roleName!=null and roleName!=''">
+                and roleName like concat('%',#{roleName},'%')
+            </if>
+            <if test="status!=-1">
+                and status = #{status}
+            </if>
+        </where>
+        order by createdDate desc limit #{page},#{pageSize}
+    </select>
+    <insert id="addRole" parameterType="com.example.entity.Role" keyProperty="id" useGeneratedKeys="true" >
+        insert into role(roleName,remark,status,createdDate,createdBy) values(#{roleName},#{remark},#{status},now(),#{createdBy})
+    </insert>
+    <select id="countRoleListByNameAndStatus" resultType="Integer">
+        select count(*) from role
+        <where>
+            <if test="roleName!=null and roleName!=''">
+                and roleName like concat('%',#{roleName},'%')
+            </if>
+            <if test="status!=-1">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+    <select id="getUserListByRoleId" resultType="com.example.entity.User">
+        SELECT u.* FROM USER u,user_role
+        WHERE u.id= user_role.userId
+        AND user_role.`roleId` = #{roleId}
+        <if test="name!=null and name!=''">
+            and name like concat('%',#{name},'%')
+        </if>
+        <if test="phone!=null and phone!=''">
+            and phone like concat('%',#{phone},'%')
+        </if>
+        order By createdDate desc
+        limit #{page},#{pageSize}
+    </select>
+    <select id="countUserListByRoleId" resultType="Integer">
+        SELECT count(*) FROM USER u,user_role
+        WHERE u.id= user_role.userId
+        AND user_role.`roleId` = #{roleId}
+        <if test="name!=null and name!=''">
+            and name like concat('%',#{name},'%')
+        </if>
+        <if test="phone!=null and phone!=''">
+            and phone like concat('%',#{phone},'%')
+        </if>
     </select>
 </mapper>

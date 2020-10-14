@@ -9,13 +9,37 @@
 <div class="xm">
     <div class="xm-d1">
         <p class="xm-d1-p">菜单管理</p>
-    </div>
 
+    </div>
+    <div class="xm-d1">
+
+    </div>
     <div class="xm-d2">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">项目名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="menuName" lay-verify="menuName" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">url地址</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="url" lay-verify="text" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">查询</button>
+                </div>
+            </div>
+        </form>
         <div class="xm-d2-hang2">
             <table id="table1" class="layui-table" lay-filter="table1"></table>
         </div>
+        <span><a href="addMenu.html" style="text-align: right;color: #801a1a">新增菜单</a></span>
     </div>
+
 
     <script type="text/javascript" src="assets/libs/jquery-3.2.1.min.js"></script>
     <script src="layui/layui.js" type="text/javascript"></script>
@@ -30,16 +54,25 @@
     }).extend({
         treeTable:"treetable-lay/treeTable"
     });
-    layui.use(['treeTable', 'table', 'layer'], function () {
+    layui.use(['treeTable', 'table', 'layer','form'], function () {
         var $ = layui.$;
+        var form = layui.form;
         var table = layui.table;
         var layer = layui.layer;
         var treeTable = layui.treeTable;
         var menuName ="";
-        var status = -1;
+        var url = "";
         var token = $.cookie('token');
-
-        var insTb = treeTable.render({
+        var insTb;
+        treeTables();
+        form.on('submit(demo1)',function(data){
+            menuName = data.field.menuName;
+            url = data.field.url;
+            treeTables();
+            return false;
+        })
+        function treeTables(){
+            insTb = treeTable.render({
             elem: '#table1',
             tree: {
                 iconIndex: 1,  // 折叠图标显示在第几列
@@ -63,43 +96,96 @@
                 {field: 'orderNum', title: '序号'},
                 {align: 'center', toolbar: '#tbBar', title: '操作', width: 120}
             ],
-            reqData: function(data, callback) {
+            reqData: function (data, callback) {
                 // 在这里写ajax请求，通过callback方法回调数据
                 $.ajax({
                     url: 'http://localhost:8182/sumer/menuList',
-                    method:"post",
-                    data:{
-                        "menuName":menuName,
-                        "status":status
+                    method: "post",
+                    data: {
+                        "menuName": menuName,
+                        "url": url
                     },
-                    dataType:"json",
-                    beforeSend: function(xhr){
-                        xhr.setRequestHeader('token',token);
+                    dataType: "json",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('token', token);
                     },
-                    success:function(datas){
-                        if(datas.code =="4001"){
-                            alert(JSON.stringify(data.message));
-                            location.href="login.html";
-                        }
+                    success: function (datas) {
+                        if (datas.code != "0") {
+                            alert(JSON.stringify(datas.message));
 
+                        }
                         callback(datas.data);
-                    },error:function(data){
+                    }, error: function (data) {
                         alert("发送异常");
                     }
                 })
             }
-            ,height: 'full-99'
+            , height: 'full-99'
         });
+        }
        treeTable.on('tool(table1)',function(obj){
            var even = obj.event;
           if(even=="edit"){
-            alert(JSON.stringify(obj.data));
+            var index  = layer.open({
+                title:"编辑菜单",
+                type: 2,
+                shade: 0.2,
+                maxmin: true,
+                shadeClose: true,
+                area: ['55%', '90%'],
+                content:"menuUpdate.html?id="+obj.data.id,
+                end:function(){
+                    treeTables();
+                }
+            })
+
           }
           if(even=="del"){
-              alert()
+              menuListById(obj.data.id)
            }
        })
-
+        function menuListById(id){
+           $.ajax({
+               url:"http://localhost:8182/sumer/menu/countMenuList/"+id,
+               type:"get",
+               dataType:"json",
+               beforeSend: function(xhr){
+                   xhr.setRequestHeader('token',token);
+               },
+               success:function(data){
+                   var count = data.data;
+                   if(data.code!='200'){
+                       alert(data.message);
+                   }else{
+                       if(count>0){
+                           alert("该菜单下包含子菜单，无法删除！");
+                       }else{
+                           if(window.confirm("是否删除此菜单")){
+                               del(id);
+                           }
+                       }
+                   }
+               },error:function(data){
+                   alert("发生异常！");
+               }
+           })
+        }
+        function del(id) {
+            $.ajax({
+                url:"http://localhost:8182/sumer/menu/delMenuById/"+id,
+                type:"delete",
+                dataType:"json",
+                beforeSend: function(xhr){
+                    xhr.setRequestHeader('token',token);
+                },
+                success:function(data) {
+                    alert(data.message);
+                    treeTables();
+                },error:function(data){
+                    alert("发生异常！");
+                }
+            })
+        }
     })
 </script>
 </div>

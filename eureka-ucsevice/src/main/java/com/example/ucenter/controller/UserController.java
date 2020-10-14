@@ -65,6 +65,7 @@ public class UserController {
     @GetMapping("/findMenu")
     public ResponseBean findMenu(HttpServletRequest request){
         List<MenuNodeVo> menuNodeVoList = iUserService.findMenu();
+        System.out.println(menuNodeVoList);
         return ResponseBean.success(menuNodeVoList);
     }
 }

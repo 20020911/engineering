@@ -67,6 +67,7 @@
 
                 <div class="layui-form-item">
                     <button lay-filter="login-submit" class="layui-btn layui-btn-fluid" lay-submit>登 录</button>
+                    <span><a href="addUser.html" style="text-align: right;color: #801a1a"><b>没有账号，进行注册</b></a></span>
                 </div>
             </form>
         </div>
@@ -92,7 +93,7 @@ layui.config({
     $("input[name='deviceId']").val(uuid);
     var form = layui.form;
     var config = layui.config;
-    var expTime = 43200;
+    var expTime = 1;
     if (config.getToken()) {
         location.replace('./');
         return;
@@ -112,6 +113,7 @@ layui.config({
             type: 'POST',
             success: function (data) {
                alert("登录成功！");
+
                $.cookie("token",data.message,{path:'/',expires:expTime}),
                location.href="frame.html"
             },error:function(data){

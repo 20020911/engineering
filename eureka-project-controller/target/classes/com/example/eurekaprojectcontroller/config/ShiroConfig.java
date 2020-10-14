@@ -1,4 +1,4 @@
-package com.example.config;
+package com.example.eurekaprojectcontroller.config;
 
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
@@ -21,10 +21,9 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
     @Bean("securityManager")
-    public DefaultWebSecurityManager getManager(){
+    public DefaultWebSecurityManager getManager(UserRealm realm){
         DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
-        //manager.setRealm(realm);
-
+        manager.setRealm(realm);
         //关闭shiro自带的session
         DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
         DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
@@ -45,17 +44,16 @@ public class ShiroConfig {
         //所有的请求通过我们自己的JWT Filter
         filterRuleMap.put("/**","jwt");
         //访问401和404页面不通过我们的Filter
-        filterRuleMap.put("/ucenter/user/login","anon");
-        filterRuleMap.put("/SendVerificationCode","anon");
-        filterRuleMap.put("/sms/SendVerification","anon");
-        filterRuleMap.put("/yzm","anon");
-        filterRuleMap.put("/sms/yzm","anon");
+        filterRuleMap.put("/sumer/remoteUser","anon");
+        filterRuleMap.put("/user/remoteUser","anon");
+        filterRuleMap.put("/sumer/remoteUsers","anon");
+        filterRuleMap.put("/user/remoteUsers","anon");
+        filterRuleMap.put("/sumer/addUser","anon");
+        filterRuleMap.put("/user/addUser","anon");
+        filterRuleMap.put("/sumer/init","anon");
         //开发API文档接口
         filterRuleMap.put("/swagger-ui.html","anon");
         filterRuleMap.put("/webjars/**","anon");
-        filterRuleMap.put("/swagger-resources/**","anon");
-        filterRuleMap.put("/v2/**","anon");
-
         //sql监控
         filterRuleMap.put("/druid/**","anon");
         filterFactoryBean.setFilterChainDefinitionMap(filterRuleMap);

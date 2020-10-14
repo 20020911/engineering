@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑菜单</title>
+    <link rel="stylesheet" href="layui/css/layui.css" type="text/css">
+</head>
+<body>
+<div class="xm">
+    <div class="xm-d1">
+        <p class="xm-d1-p">编辑菜单</p><br>
+    </div>
+    <div class="x_content">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">菜单名称</label>
+                <div class="layui-input-block" style="width: 500px;">
+                    <input type="text" id="menuName" name="menuName" lay-verify="text" autocomplete="off" placeholder="请输入名称" class="layui-input">
+                </div>
+
+
+            </div>
+            <div class="layui-form-item">
+            <label class="layui-form-label">url路径</label>
+            <div class="layui-input-block" style="width: 500px;">
+                <input type="text" id="url" name="url" lay-verify="text" autocomplete="off" placeholder="请输入url" class="layui-input">
+            </div>
+            </div>
+                <div class="layui-form-item">
+            <label class="layui-form-label">菜单序号</label>
+            <div class="layui-input-block" style="width: 500px;">
+                <input type="text" id="orderNum" name="orderNum" lay-verify="text" autocomplete="off" placeholder="请输入序号" class="layui-input">
+            </div>
+                </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">父级菜单</label>
+                <div class="layui-input-block" style="width: 500px;">
+                    <select name="parentId" lay-filter="aihao" id="parentId">
+                        <option value="0" >---请选择---</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="submit" class="layui-btn" lay-submit="" lay-filter="sub">立即提交</button>
+                    <button type="submit" class="layui-btn layui-btn-primary" lay-submit="" lay-filter="res">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="assets/libs/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="layui/layui.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script>
+    layui.use(['form','layer'], function () {
+        var $ = layui.$,form=layui.form,layer = layui.layer;
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+        var token = $.cookie("token");
+        var id = getQueryString("id");
+
+        init(id);
+
+        var option = "";
+        form.on('submit(sub)',function(data){
+
+            var datas = data.field;
+            var ref = /^\d[0-9]$/;
+            if(!ref.test(datas.orderNum)){
+                alert("请输入正确的序号！");
+                return false;
+            }
+            $.ajax({
+                url:"http://localhost:8182/sumer/menu/updateMenuByMenu",
+                data:{
+                    "menuName":datas.menuName,
+                    "url":datas.url,
+                    "parentId":datas.parentId,
+                    "orderNum":datas.orderNum,
+                    "id":id
+                },
+                type:"put",
+                dataType:"json",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('token', token);
+                },
+                success:function(data){
+                    alert(data.message);
+                    var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                    parent.layer.close(index);
+                },error:function(data){
+                    alert("前台发送异常！");
+                }
+            })
+            return false;
+        })
+        form.on('submit(res)',function(data){
+             init(id);
+            return false;
+        })
+        function menuList(id,parentId){
+            $.ajax({
+                url:"http://localhost:8182/sumer/menu/menuListById/"+id,
+                type:"get",
+                dataType:"json",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('token', token);
+                },
+                success:function(data){
+                   option = "<option value='0''>---请选择---</option>";
+                   for(var i =0;i<data.data.length;i++){
+                       if(data.data[i].id!=id){
+                           if(data.data[i].id == parentId){
+                               option+="<option value='"+data.data[i].id+"' selected='selected'>"+data.data[i].menuName+"</option>"
+                           }else{
+                               option+="<option value='"+data.data[i].id+"''>"+data.data[i].menuName+"</option>"
+
+                           }
+
+                       }
+                   }
+                   $("#parentId").html(option);
+                   form.render('select');
+                },error:function(data){
+                    alert("发生异常！");
+                }
+            })
+        }
+        function init(id){
+            $.ajax({
+                url:"http://localhost:8182/sumer/menu/showMenuById/"+id,
+                type:"get",
+                dataType:"json",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('token', token);
+                },
+                success:function(data){
+                    if(data.code!='200'){
+                        alert(data.message);
+                    }
+                    menuList(id,data.data.parentId);
+                    $("#menuName").val(data.data.menuName);
+                    $("#url").val(data.data.url);
+                    $("#orderNum").val(data.data.orderNum);
+                },error:function(data){
+                    alert("发生异常！");
+                }
+            })
+        }
+    })
+</script>
+</body>
+</html>

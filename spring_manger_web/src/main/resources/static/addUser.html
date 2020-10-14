@@ -76,6 +76,8 @@
 
                 <div class="layui-form-item">
                     <button lay-filter="login-submit" class="layui-btn layui-btn-fluid" lay-submit>登 录</button>
+                    <span><a href="login.html" style="text-align: right;color: #801a1a"><b>已有账号，前往登录</b></a></span>
+
                 </div>
             </form>
         </div>
@@ -175,6 +177,10 @@
         form.on('submit(formDemo)',function(obj){
             //alert(JSON.stringify(obj.field));
             var phone = obj.field.phone;
+            remoteUsers(phone);
+            if(two==0){
+
+
             $.ajax({
                 url:"http://localhost:8282/sms/SendVerification",
                 data:{
@@ -188,6 +194,7 @@
                     alert("发生异常！")
                 }
             });
+            }
             return false;
         })
         // 表单提交
