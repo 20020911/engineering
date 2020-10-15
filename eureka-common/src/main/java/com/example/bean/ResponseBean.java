@@ -9,6 +9,7 @@ public class ResponseBean {
     private String message;
     private Object data;
     private int count;
+    private String msg="ok";
 
     public int getCount() {
         return count;

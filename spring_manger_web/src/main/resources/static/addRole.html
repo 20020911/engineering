@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新增角色信息</title>
+    <link rel="stylesheet" href="layui/css/layui.css" type="text/css">
+</head>
+<body>
+<div class="xm">
+    <div class="xm-d1">
+        <p class="xm-d1-p">新增角色</p><br>
+    </div>
+    <div class="x_content">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">角色名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="roleName" lay-verify="text" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">角色状态</label>
+                    <div class="layui-input-block" style="width: 200px;">
+                        <select name="status" lay-filter="aihao" id="status">
+                            <option value="-1">请选择</option>
+                            <option value="0">未启用</option>
+                            <option value="1">启用</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">角色备注</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="remark" lay-verify="text" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="layui-form-item">
+                <div class="xm-d1">
+                    <p class="xm-d1-p">菜单权限</p><br>
+                </div>
+                <div>
+                    <div id="test" style="margin-left:5%;display:inline-block;"></div>
+                </div>
+                <button type="submit" class="layui-btn" lay-submit="" lay-filter="sub">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                <span><a href="javascript:history.back(-1)" style="text-align: right;color: #801a1a"><b>返回</b></a></span>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="assets/libs/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="layui/layui.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script>
+    layui.use(['form','tree','util'],function(){
+        var $ = layui.$,form = layui.form,tree = layui.tree,util = layui.util;
+        form.render('select');
+        var token = $.cookie('token');
+        var tree;
+        var menu="";
+        var list=[];
+        var token = $.cookie("token");
+        function getChildNodes(treeNode, result) {
+            for (var i in treeNode) {
+                result.push(treeNode[i].id);
+                result = getChildNodes(treeNode[i].children, result);
+            }
+            return result;
+        }
+
+        form.on('submit(sub)',function(data){
+            var datas = data.field;
+            if(datas.roleName==""||datas.roleName==null){
+                alert("请输入角色名称！");
+                return false;
+            }
+            if(data.status==-1){
+                alert("请选择角色状态！");
+                return false;
+            }
+            var checkedData = tree.getChecked('demoId1'); //获取选中节点的数据
+            var role=(getChildNodes(checkedData,[]));
+            var as = role.toString();
+           var all = as.split(",");
+           alert(JSON.stringify(all));
+            var sla="{";
+            for(var i=0;i<all.length;i++){
+                sla+="["+all[i]+"],";
+            }
+            sla = sla.substring(0,sla.length-1);
+            sla+="}";
+            alert(sla);
+            $.ajax({
+                url:"http://localhost:8182/sumer/role/addRole",
+                data:{
+                    'roleName':data.field.roleName,
+                    'remark':data.field.remark,
+                    'status':data.field.status,
+                    'menuId':sla,
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('token', token);
+                },
+                type:'post',
+                dataType:'JSON',
+                success:function(data){
+                    alert(data.message);
+                    if(data.code=='200'){
+                        location.href="roleList.html";
+                    }
+                },error:function(data){
+                    alert("发送异常！");
+                }
+            });
+            return false;
+        });
+        $.ajax({
+            url:"http://localhost:9002/ucenter/user/findMenu",
+            type:"get",
+            //headers: {'Authorization': "12"},
+            dataType:"json",
+            data:{},
+            beforeSend: function(xhr){
+                //alert("发送之前的设置...... "+token);
+                xhr.setRequestHeader('token', token);
+            },
+            success:function(data){
+                if(data.code =="4001"){
+                    alert(JSON.stringify(data.message));
+                    location.href="login.html";
+                }
+                if(data.code =="600"){
+                    alert(JSON.stringify(data.message));
+                    //location.href="login.html";
+                }
+                var menus = data.data;
+                // alert(JSON.stringify(menus));
+               tree =  tree.render({
+                    elem: '#test',  //绑定元素
+                    data: menus,//返回的数据
+                    target:"content",
+                    id: 'demoId1',
+                    showLine: false,
+                    accordion: true,//手风琴模式
+                    showCheckbox: true,
+                    click:function(){
+                        $(".layui-tree-txt").attr("target", "content");
+                    }
+
+                });
+
+            },error:function(data){
+                alert("发生异常")
+            }
+        })
+
+
+    })
+</script>
+</body>
+</html>

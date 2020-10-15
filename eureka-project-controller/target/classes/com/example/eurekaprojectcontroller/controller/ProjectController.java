@@ -98,7 +98,10 @@ public class ProjectController {
         try {
             int count = projectService.updProject(project);
             if(count>0){
+<<<<<<< HEAD
                 System.out.println("修改成功"+project.toString());
+=======
+>>>>>>> 4404850b24f46639af38509eb6a52a9eb7ccabc9
                 data.setMsg("修改成功");
                 data.setCode(200);
                 data.setData(count);

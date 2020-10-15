@@ -12,9 +12,14 @@
     </div>
 
     <div class="xm-d2">
+<<<<<<< HEAD
 
         <div class="xm-d2-hang2">
             <table id="permissionTable" class="layui-table" lay-filter="permissionTable"></table>
+=======
+        <div class="xm-d2-hang2">
+            <table id="table1" class="layui-table" lay-filter="table1"></table>
+>>>>>>> 4404850b24f46639af38509eb6a52a9eb7ccabc9
         </div>
     </div>
 
@@ -50,6 +55,7 @@
                     xhr.setRequestHeader('token',token);
                 },
                 success:function(data){
+<<<<<<< HEAD
 
                     if(data.code !='200'){
                         alert(JSON.stringify(data.message));
@@ -57,20 +63,38 @@
                     }
                     treetables(data.data);
                     alert(JSON.stringify(data));
+=======
+                    if(data.code =="4001"){
+                        alert(JSON.stringify(data.message));
+                        location.href="login.html";
+                    }
+                    trtable(data.data);
+>>>>>>> 4404850b24f46639af38509eb6a52a9eb7ccabc9
                 },error:function(data){
                     alert("发送异常");
                 }
             })
         }
+<<<<<<< HEAD
         function treetables(data) {
 
             treetable.render({
+=======
+
+
+        function trtable(data) {
+            layer.load(2);
+            treetable.render({
+                data:data,
+                isPidData: true,
+>>>>>>> 4404850b24f46639af38509eb6a52a9eb7ccabc9
                 treeColIndex: 1,          // treetable新增参数
                 treeSpid: 0,             // treetable新增参数
                 treeIdName: 'id',       // treetable新增参数
                 treePidName: 'parentId',     // treetable新增参数
                 treeDefaultClose: true,   // treetable新增参数
                 treeLinkage: true,        // treetable新增参数
+<<<<<<< HEAD
                 elem: '#permissionTable',
                 data: data,
                 type: "post",
@@ -81,6 +105,22 @@
                     {field: 'sex', title: 'sex'},
                     {field: 'pid', title: 'pid'},
                 ]]
+=======
+                page:"false",
+                elem: '#table1',
+                cols: [[
+                    {type: 'radio'},
+                    {field: 'id', title: 'id'},
+                    {field: 'menuName', title: 'menuName'},
+                    {field: 'parentId', title: 'parentId'},
+                    {field: 'url', title: 'url'},
+                    {field: 'createdDate', title: 'createdDate'},
+                ]],done: function () {
+                    layer.closeAll('loading');
+                },error:function(da){
+                    alert("发送异常");
+                }
+>>>>>>> 4404850b24f46639af38509eb6a52a9eb7ccabc9
             });
         }
     })

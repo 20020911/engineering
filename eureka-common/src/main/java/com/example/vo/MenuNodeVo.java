@@ -19,7 +19,11 @@ public class MenuNodeVo {
     private int type; //菜单还是按钮
     private String link;
     private String href;
-
+    private String title;
+    private List<MenuNodeVo> children = new ArrayList<>(); //子结构与节点
+    public String getTitle() {
+        return title;
+    }
     public String getHref() {
         return href;
     }
@@ -113,16 +117,12 @@ public class MenuNodeVo {
     public void setChildren(List<MenuNodeVo> children) {
         this.children = children;
     }
-    private String title;
 
-    public String getTitle() {
-        return title;
-    }
 
     public void setTitle() {
         this.title = this.menuName;
     }
-    private List<MenuNodeVo> children = new ArrayList<>(); //子结构与节点
+
 
 
     /**

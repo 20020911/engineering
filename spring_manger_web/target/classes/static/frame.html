@@ -39,9 +39,14 @@
            dataType:"json",
            data:{},
            beforeSend: function(xhr){
+<<<<<<< HEAD
+=======
+               //alert("发送之前的设置...... "+token);
+>>>>>>> 4404850b24f46639af38509eb6a52a9eb7ccabc9
                xhr.setRequestHeader('token', token);
            },
            success:function(data){
+               alert(JSON.stringify(data));
                if(data.code =="4001"){
                    location.href="login.html";
                }
@@ -54,7 +59,11 @@
                    data: menus,//返回的数据
                    isJump:true, //点击事件
                    target:"content",
+<<<<<<< HEAD
                    id: 'demoId',
+=======
+                   id: 'demoId1',
+>>>>>>> 4404850b24f46639af38509eb6a52a9eb7ccabc9
                    accordion: true,//手风琴模式
                    click:function(){
                        $(".layui-tree-txt").attr("target", "content");

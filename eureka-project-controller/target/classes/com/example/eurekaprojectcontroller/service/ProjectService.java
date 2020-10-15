@@ -43,5 +43,8 @@ public class ProjectService {
     public User getUserByName(@Param("name") String name){
         return projectMapper.getUserByName(name);
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4404850b24f46639af38509eb6a52a9eb7ccabc9
 }

@@ -3,6 +3,7 @@ package com.example.vo;
 import lombok.Data;
 
 import java.sql.Date;
+import java.util.Comparator;
 
 @Data
 public class MenuListVo implements java.io.Serializable{
@@ -11,6 +12,15 @@ public class MenuListVo implements java.io.Serializable{
     private int parentId;
     private String url;
     private Date createdDate;
+    private int orderNum;
+
+    public int getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(int orderNum) {
+        this.orderNum = orderNum;
+    }
 
     public int getId() {
         return id;
@@ -50,5 +60,14 @@ public class MenuListVo implements java.io.Serializable{
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+    }
+    public static Comparator<MenuListVo> order(){
+        Comparator<MenuListVo> comparator =(o1, o2) -> {
+            if(o1.getOrderNum() != o2.getOrderNum()){
+                return (int) (o1.getOrderNum() - o2.getOrderNum());
+            }
+            return 0;
+        };
+        return comparator;
     }
 }
