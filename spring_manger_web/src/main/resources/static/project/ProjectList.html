@@ -5,6 +5,7 @@
     <title>Title</title>
     <script type="text/javascript" src="../assets/libs/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../layui/layui.js"></script>
+	<script type="text/javascript" src="../js/jquery.cookie.js"></script>
 	<link href="../layui/css/layui.css" type="text/css" rel="stylesheet"/>
     <link href="../layui/css/project.css" type="text/css" rel="stylesheet"/>
 	
@@ -68,7 +69,7 @@
     								<label>项目状态</label>
     								<div class="layui-input-block">
     									<select name="state" id="state" class="form-control">
-    										<option value="2">--请选择--</option>
+    										<option value="0">--请选择--</option>
     									</select>
     								</div>
     						</li>
@@ -134,7 +135,7 @@
 		</ul>
 	</form>
 </div>
-<div class="box" id="upd" style="width: 800px" hidden="hidden">
+<div class="box" id="upd" style="width: 800px;height: 1000px;" hidden="hidden">
 	<span class="close">x</span>
 	<form class="layui-form">
 		<input type="hidden" name="pageIndex" value="1" />
@@ -192,6 +193,8 @@
 		var table = layui.table;
 		var form = layui.form;
 		var $ = layui.$;
+		var token = $.cookie('token');
+		alert(token);
 		$('.close').click(function(){
 			$('.box').hide();
 		})
@@ -220,25 +223,50 @@
 		  );
 		});
 		$(".updSubmit").click(function(){
-			$.post(
-			"http://localhost:8002/call/project/updPro",
-			{
+			// $.post(
+			// "http://localhost:8002/call/project/updPro",
+			// {
+			// 	'p_company': $("#p_company").val(),
+			// 	'p_parent': $("#p_parent2").val(),
+			// 	'p_address': $("#p_address").val(),
+			// 	'p_name': $("#p_name").val(),
+			// 	'p_id': $("#p_id").val(),
+			// 	'p_manager': $("#p_manager").val(),
+			// 	'p_state':$("#p_state").val(),
+			// 	'id':$("#pid").val()
+			// },
+			//  function(data) {alert(data)}
+		  // );
+			$.ajax({
+				type : "POST",
+				url : "http://localhost:8002/call/project/updPro",
+				dataType : "JSON",
+				beforeSend: function(xhr){
+					xhr.setRequestHeader('token', token);
+				},
+				data :{
 				'p_company': $("#p_company").val(),
-				'p_parent': $("#p_parent2").val(),
-				'p_address': $("#p_address").val(),
-				'p_name': $("#p_name").val(),
-				'p_id': $("#p_id").val(),
-				'p_manager': $("#p_manager").val(),
-				'p_state':$("#p_state").val(),
-				'id':$("#pid").val()
-			},
-			 function(data) {alert(data)}
-		  );
+					'p_parent': $("#p_parent2").val(),
+					'p_address': $("#p_address").val(),
+					'p_name': $("#p_name").val(),
+					'p_id': $("#p_id").val(),
+					'p_manager': $("#p_manager").val(),
+					'p_state':$("#p_state").val(),
+					'id':$("#pid").val()
+				},
+				error:function(){
+					layer.alert('请求失败，稍后再试', {icon: 5});
+				}
+
+			});
 		})
 		$.ajax({
 			type : "GET",
 			url : "http://localhost:8002/call/project/stateList",
 			dataType : "JSON",
+			beforeSend: function(xhr){
+				xhr.setRequestHeader('token', token);
+			},
 			success : function(d) {
 				 var tmp = '<option value="0">--请选择--</option>';
 				 $("#state").html(tmp);
@@ -257,6 +285,9 @@
 			type : "GET",
 			url : "http://localhost:8002/call/project/projectList",
 			dataType : "JSON",
+			beforeSend: function(xhr){
+				xhr.setRequestHeader('token', token);
+			},
 			success : function(d) {
 				 var tmp = '<option value="0">--请选择--</option>';
 				 $("#p_parent").html(tmp);
@@ -302,6 +333,10 @@
                         , {field: 'p_name', title: '项目名称', width: '180px;', style: 'font-size:13px;'}
                         , {title: '操作', align: 'center', toolbar: '#barDemo', width: '259px;'}
                     ]],
+					headers: {
+						token: token,
+					},
+
                     page: true,
                     request: {
                         pageName: 'start',
@@ -338,6 +373,9 @@
 							  type : "GET",
 							  url : "http://localhost:8002/call/project/userList",
 							  dataType : "JSON",
+							  beforeSend: function(xhr){
+								  xhr.setRequestHeader('token', token);
+							  },
 							  success : function(d) {
 							  	 var tmp = '<option value="0">--请选择--</option>';
 							  	 $("#p_manager").html(tmp);
@@ -359,6 +397,9 @@
 						  	type : "GET",
 						  	url : "http://localhost:8002/call/project/projectList",
 						  	dataType : "JSON",
+							  beforeSend: function(xhr){
+								  xhr.setRequestHeader('token', token);
+							  },
 						  	success : function(d) {
 						  		var tmp = '<option value="0">--请选择--</option>';
 						  		$("#p_parent2").html(tmp);
@@ -380,6 +421,9 @@
 							type : "GET",
 							url : "http://localhost:8002/call/project/stateList",
 							dataType : "JSON",
+							beforeSend: function(xhr){
+								xhr.setRequestHeader('token', token);
+							},
 							success : function(d) {
 								 var tmp = '<option value="0">--请选择--</option>';
 								 $("#p_state").html(tmp);

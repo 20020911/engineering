@@ -5,8 +5,38 @@
     <title>Title</title>
     <script type="text/javascript" src="../assets/libs/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../layui/layui.js"></script>
+	<script type="text/javascript" src="../js/jquery.cookie.js"></script>
 	<link href="../layui/css/layui.css" type="text/css" rel="stylesheet"/>
     <link href="../layui/css/project.css" type="text/css" rel="stylesheet"/>
+	
+<!--	-->
+<!--	&lt;!&ndash; Bootstrap &ndash;&gt;-->
+<!--	<link href="../layui/css/bootstrap.min.css" rel="stylesheet">-->
+<!--	&lt;!&ndash; Font Awesome &ndash;&gt;-->
+<!--	<link href="../layui/css/font-awesome.min.css" rel="stylesheet">-->
+<!--	&lt;!&ndash; NProgress &ndash;&gt;-->
+<!--	<link href="../layui/css/nprogress.css" rel="stylesheet">-->
+<!--	&lt;!&ndash; Custom Theme Style &ndash;&gt;-->
+<!--	<link href="../layui/css/custom.min.css" rel="stylesheet">-->
+<!--	<link href="../layui/css/userView.css" rel="stylesheet" />-->
+<!--	<link href="../layui/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>-->
+<!--    <link href="../layui/css/styles.css" type="text/css" rel="stylesheet"/>-->
+<!--	  <link href="../layui/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">-->
+<!--	  <link href="../layui/css/bootstrap.min.css" rel="stylesheet">-->
+<!--	&lt;!&ndash; Font Awesome &ndash;&gt;-->
+<!--	<link href="../layui/css/font-awesome.min.css" rel="stylesheet">-->
+<!--	&lt;!&ndash; NProgress &ndash;&gt;-->
+<!--	<link href="../layui/css/nprogress.css" rel="stylesheet">-->
+<!--	&lt;!&ndash; iCheck &ndash;&gt;-->
+<!--	<link href="../layui/css/green.css" rel="stylesheet">-->
+<!--	&lt;!&ndash; bootstrap-progressbar &ndash;&gt;-->
+<!--	<link href="../layui/css/bootstrap-progressbar-3.3.4.min.css"-->
+<!--		rel="stylesheet">-->
+<!--	&lt;!&ndash; JQVMap &ndash;&gt;-->
+<!--	<link href="../layui/css/jqvmap.min.css" rel="stylesheet" />-->
+<!--	<link href="../layui/css/dropzone.min.css" rel="stylesheet">-->
+<!--	&lt;!&ndash; Custom Theme Style &ndash;&gt;-->
+<!--	<link href="../layui/css/custom.min.css" rel="stylesheet">-->
 </head>
 <body>
 <div class="col-md-12">
@@ -39,7 +69,7 @@
     								<label>项目状态</label>
     								<div class="layui-input-block">
     									<select name="state" id="state" class="form-control">
-    										<option value="2">--请选择--</option>
+    										<option value="0">--请选择--</option>
     									</select>
     								</div>
     						</li>
@@ -71,37 +101,172 @@
         </div>
     </div>
 </div>
-<div class="box" hidden="hidden">
+<div class="box" id="addsub" style="width: 800px" hidden="hidden">
 	<span class="close">x</span>
+	<form class="layui-form">
+		<input type="hidden" name="pageIndex" value="1" />
+		<ul>
+			<li>
+				<label>项目编号</label>
+				<input type="text" name="name" id="p_id_" placeholder="请输入" autocomplete="off" class="layui-input">
+			</li>
+			<li>
+				<label>项目名称</label>
+				<input type="text" name="name" id="p_name_" placeholder="请输入" autocomplete="off" class="layui-input">
+			</li>
+			<li>
+				<label>项目地区</label>
+				<input type="text" name="name" id="p_address_" placeholder="请输入" autocomplete="off" class="layui-input">
+			</li>
+			<li>
+				<label>关联项目</label>
+				<select id="p_parent">
+					
+				</select>
+			</li>
+			<li>
+				<label>公司</label>
+				<input type="text" name="name" id="p_company_" placeholder="请输入" autocomplete="off" class="layui-input">
+			</li>
+			<li>
+				<button class="addSubmit">
+					添&nbsp;&nbsp;&nbsp;&nbsp;加</button>
+			</li>
+		</ul>
+	</form>
 </div>
-<script type="text/html" id="barDemo" lay-filter="demo">
-    <a lay-event="sss">
-        <div class="layui-input-inline" >
-            <select name="operation" id="cz" lay-filter="operation">
-                <option value="1">编辑</option>
-                <option value="2">删除</option>
-            </select>
-        </div>
-    </a>
+<div class="box" id="upd" style="width: 800px;height: 1000px;" hidden="hidden">
+	<span class="close">x</span>
+	<form class="layui-form">
+		<input type="hidden" name="pageIndex" value="1" />
+		<ul>
+			<li>
+				<input type="text" name="name" id="pid" placeholder="请输入" autocomplete="off" class="layui-input" hidden="hidden">
+				<label>项目编号</label>
+				<input type="text" name="name" id="p_id" placeholder="请输入" autocomplete="off" class="layui-input">
+			</li>
+			<li>
+				<label>项目名称</label>
+				<input type="text" name="name" id="p_name" placeholder="请输入" autocomplete="off" class="layui-input">
+			</li>
+			<li>
+				<label>项目地区</label>
+				<input type="text" name="name" id="p_address" placeholder="请输入" autocomplete="off" class="layui-input">
+			</li>
+			<li>
+				<label>关联项目</label>
+				<select id="p_parent2">
+					
+				</select>
+			</li>
+			<li>
+				<label>公司</label>
+				<input type="text" name="name" id="p_company" placeholder="请输入" autocomplete="off" class="layui-input">
+			</li>
+			<li>
+				<label>项目状态</label>
+				<select id="p_state">
+					
+				</select>
+			</li>
+			<li>
+				<label>项目经理</label>
+				<select id="p_manager">
+					
+				</select>
+			</li>
+			<li>
+				<button class="updSubmit">
+					修&nbsp;&nbsp;&nbsp;&nbsp;改</button>
+			</li>
+		</ul>
+	</form>
+</div>
+<script type="text/html" id="barDemo">
+	<div class="layui-btn-container">
+	    <button class="layui-btn layui-btn-sm" lay-event="upd">修改</button>
+		<button class="layui-btn layui-btn-sm" lay-event="del">删除</button>
+	</div>
 </script>
 <script>
     layui.use(['table','form'], function() {
 		var table = layui.table;
 		var form = layui.form;
 		var $ = layui.$;
+		var token = $.cookie('token');
+		alert(token);
 		$('.close').click(function(){
-			alert("close");
 			$('.box').hide();
 		})
+		form.render('select');
         initi();
 		$(".searchSubmit").click(function(){
 			initi();
 			return false;
 		})
+		// form.on('submit(searchSubmit)', function(data){
+		// 	initi();
+		// 	return false;
+		// });
+		$(".addSubmit").click(function(){
+			$.post(
+			"http://localhost:8002/call/project/addPro",
+			{
+				'p_company': $("#p_company_").val(),
+				'p_parent': $("#p_parent").val(),
+				'p_address': $("#p_address_").val(),
+				'p_name': $("#p_name_").val(),
+				'p_id': $("#p_id_").val(),
+				'p_manager': 1
+			},
+			 function(data) {alert(data)}
+		  );
+		});
+		$(".updSubmit").click(function(){
+			// $.post(
+			// "http://localhost:8002/call/project/updPro",
+			// {
+			// 	'p_company': $("#p_company").val(),
+			// 	'p_parent': $("#p_parent2").val(),
+			// 	'p_address': $("#p_address").val(),
+			// 	'p_name': $("#p_name").val(),
+			// 	'p_id': $("#p_id").val(),
+			// 	'p_manager': $("#p_manager").val(),
+			// 	'p_state':$("#p_state").val(),
+			// 	'id':$("#pid").val()
+			// },
+			//  function(data) {alert(data)}
+		  // );
+			$.ajax({
+				type : "POST",
+				url : "http://localhost:8002/call/project/updPro",
+				dataType : "JSON",
+				beforeSend: function(xhr){
+					xhr.setRequestHeader('token', token);
+				},
+				data :{
+				'p_company': $("#p_company").val(),
+					'p_parent': $("#p_parent2").val(),
+					'p_address': $("#p_address").val(),
+					'p_name': $("#p_name").val(),
+					'p_id': $("#p_id").val(),
+					'p_manager': $("#p_manager").val(),
+					'p_state':$("#p_state").val(),
+					'id':$("#pid").val()
+				},
+				error:function(){
+					layer.alert('请求失败，稍后再试', {icon: 5});
+				}
+
+			});
+		})
 		$.ajax({
 			type : "GET",
 			url : "http://localhost:8002/call/project/stateList",
 			dataType : "JSON",
+			beforeSend: function(xhr){
+				xhr.setRequestHeader('token', token);
+			},
 			success : function(d) {
 				 var tmp = '<option value="0">--请选择--</option>';
 				 $("#state").html(tmp);
@@ -109,18 +274,45 @@
 					 tmp += '<option value="' + d.data[i].id +  '">' + d.data[i].name + '</option>';
 				}
 				 $("#state").html(tmp);
-				 form.render(); 
+				 form.render();
+			},
+			error:function(){
+				layer.alert('请求失败，稍后再试', {icon: 5});
+			}
+
+		});
+		$.ajax({
+			type : "GET",
+			url : "http://localhost:8002/call/project/projectList",
+			dataType : "JSON",
+			beforeSend: function(xhr){
+				xhr.setRequestHeader('token', token);
+			},
+			success : function(d) {
+				 var tmp = '<option value="0">--请选择--</option>';
+				 $("#p_parent").html(tmp);
+				 for (var i in d.data) {
+					 tmp += '<option value="' + d.data[i].p_parent +  '">' + d.data[i].p_name + '</option>';
+				}
+				 $("#p_parent").html(tmp);
+				 form.render();
 			},
 			error:function(){
 				layer.alert('请求失败，稍后再试', {icon: 5});
 			}
 		
 		});
+		$("#add").click(function () {
+			$("#addsub").show();
+		})
         function initi() {
+				layui.use(['table','form'], function() {
+				var table = layui.table;
+				var form = layui.form;
+				$ =layui.$;
                 var manager = $('#manager').val();
                 var name = $('#name').val();
                 var state = $('#state').val();
-               //alert(manager+'manager'+name+'name'+state+'state');
                 table.render({
                     elem: '#test',
                     url: 'http://localhost:8002/call/project/getList',
@@ -130,8 +322,8 @@
                     width: 1330,
                     cols: [[
                         {field: 'id', hide: true, style: 'font-size:13px;'}
-                        , {field: 'p_id', title: '项目编号', width: '80px;', style: 'font-size:13px;'}
-                        , {field: 'p_address', title: '地址', style: 'font-size:13px;', width: '70px;'}
+                        , {field: 'p_id', title: '项目编号', width: '130px;', style: 'font-size:13px;'}
+                        , {field: 'p_address', title: '项目地址', style: 'font-size:13px;', width: '130px;'}
                         , {field: 'manager',width: '100px;',title: '项目经理',style: 'font-size:13px; height:auto;overflow:visible;text-overflow:inherit; white-space:normal;'}
                         , {field: 'p_company', title: '项目集团', style: 'font-size:13px;', width: '150px;'}
                         , {field: 'dictionaryType', title: '项目状态', width: '180px;', style: 'font-size:13px;'}
@@ -141,6 +333,10 @@
                         , {field: 'p_name', title: '项目名称', width: '180px;', style: 'font-size:13px;'}
                         , {title: '操作', align: 'center', toolbar: '#barDemo', width: '259px;'}
                     ]],
+					headers: {
+						token: token,
+					},
+
                     page: true,
                     request: {
                         pageName: 'start',
@@ -164,22 +360,99 @@
                     limits: [3, 5, 8]
                 });
 				table.on('tool(test)',function(obj){
-					var data = obj.data;
-					form.on('select(operation)', function(datas) {
-						var type = datas.value;
-						var id=data.id;
-						if (type ==1) {
-							alert("as");
-							$(".box").show();
-						} else if (type ==2) {
-							alert("2");
-						}
-						
-					});
+					console.log(obj.data.id);
+					switch(obj.event){
+					    case 'upd':
+					      $("#upd").show();
+						  $("#p_id").val(obj.data.p_id);
+						  $("#pid").val(obj.data.id);
+						  $("#p_name").val(obj.data.p_name);
+						  $("#p_address").val(obj.data.p_address);
+						  $("#p_company").val(obj.data.p_company);
+						  $.ajax({
+							  type : "GET",
+							  url : "http://localhost:8002/call/project/userList",
+							  dataType : "JSON",
+							  beforeSend: function(xhr){
+								  xhr.setRequestHeader('token', token);
+							  },
+							  success : function(d) {
+							  	 var tmp = '<option value="0">--请选择--</option>';
+							  	 $("#p_manager").html(tmp);
+							  	 for (var i in d.data) {
+									if(d.data[i].id==obj.data.p_manager){
+										tmp += '<option selected="selected" value="' + d.data[i].id +  '">' + d.data[i].name + '</option>';
+									}else{
+										tmp += '<option value="' + d.data[i].id +  '">' + d.data[i].name + '</option>';
+									}
+								}
+							  	 $("#p_manager").html(tmp);
+							  	 form.render();
+							  },
+							  error:function(){
+							  	layer.alert('请求失败，稍后再试', {icon: 5});
+							  }
+						  });
+						  $.ajax({
+						  	type : "GET",
+						  	url : "http://localhost:8002/call/project/projectList",
+						  	dataType : "JSON",
+							  beforeSend: function(xhr){
+								  xhr.setRequestHeader('token', token);
+							  },
+						  	success : function(d) {
+						  		var tmp = '<option value="0">--请选择--</option>';
+						  		$("#p_parent2").html(tmp);
+						  		for (var i in d.data) {
+									if(d.data[i].id==obj.data.p_parent){
+										tmp += '<option selected="selected" value="' + d.data[i].p_parent +  '">' + d.data[i].p_name + '</option>';
+									}else{
+										tmp += '<option value="' + d.data[i].p_parent +  '">' + d.data[i].p_name + '</option>';
+									}
+								}
+						  		$("#p_parent2").html(tmp);
+						  		form.render();
+						  	},
+						  	error:function(){
+						  		layer.alert('请求失败，稍后再试', {icon: 5});
+						  	}
+						});
+						$.ajax({
+							type : "GET",
+							url : "http://localhost:8002/call/project/stateList",
+							dataType : "JSON",
+							beforeSend: function(xhr){
+								xhr.setRequestHeader('token', token);
+							},
+							success : function(d) {
+								 var tmp = '<option value="0">--请选择--</option>';
+								 $("#p_state").html(tmp);
+								 for (var i in d.data) {
+									 if(d.data[i].id==obj.data.p_state){
+										 tmp += '<option selected="selected" value="' + d.data[i].id +  '">' + d.data[i].name + '</option>';
+									 }else{
+										 tmp += '<option value="' + d.data[i].id +  '">' + d.data[i].name + '</option>';
+									 }
+								}
+								 $("#p_state").html(tmp);
+								 form.render();
+							},
+							error:function(){
+								layer.alert('请求失败，稍后再试', {icon: 5});
+							}
+						});
+						break;
+						case 'del':
+							$.post(
+							"http://localhost:8002/call/project/delPro/"+obj.data.id,
+							 function(data) {}
+						);
+						break;
+					}
 				});
-				
-				
-				
+
+			});
+
         }
     })
 

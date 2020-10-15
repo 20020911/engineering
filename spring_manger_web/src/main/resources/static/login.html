@@ -111,6 +111,7 @@ layui.config({
             },
             type: 'POST',
             success: function (data) {
+                alert(JSON.stringify(data));
                alert("登录成功！");
                $.cookie("token",data.message,{path:'/',expires:expTime}),
                location.href="frame.html"

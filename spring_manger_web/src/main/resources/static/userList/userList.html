@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../assets/libs/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../layui/layui.js"></script>
+	<script type="text/javascript" src="../js/jquery.cookie.js"></script>
+	<link href="../layui/css/layui.css" type="text/css" rel="stylesheet"/>
+    <link href="../layui/css/project.css" type="text/css" rel="stylesheet"/>
+	
+<!--	-->
+<!--	&lt;!&ndash; Bootstrap &ndash;&gt;-->
+<!--	<link href="../layui/css/bootstrap.min.css" rel="stylesheet">-->
+<!--	&lt;!&ndash; Font Awesome &ndash;&gt;-->
+<!--	<link href="../layui/css/font-awesome.min.css" rel="stylesheet">-->
+<!--	&lt;!&ndash; NProgress &ndash;&gt;-->
+<!--	<link href="../layui/css/nprogress.css" rel="stylesheet">-->
+<!--	&lt;!&ndash; Custom Theme Style &ndash;&gt;-->
+<!--	<link href="../layui/css/custom.min.css" rel="stylesheet">-->
+<!--	<link href="../layui/css/userView.css" rel="stylesheet" />-->
+<!--	<link href="../layui/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>-->
+<!--    <link href="../layui/css/styles.css" type="text/css" rel="stylesheet"/>-->
+<!--	  <link href="../layui/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">-->
+<!--	  <link href="../layui/css/bootstrap.min.css" rel="stylesheet">-->
+<!--	&lt;!&ndash; Font Awesome &ndash;&gt;-->
+<!--	<link href="../layui/css/font-awesome.min.css" rel="stylesheet">-->
+<!--	&lt;!&ndash; NProgress &ndash;&gt;-->
+<!--	<link href="../layui/css/nprogress.css" rel="stylesheet">-->
+<!--	&lt;!&ndash; iCheck &ndash;&gt;-->
+<!--	<link href="../layui/css/green.css" rel="stylesheet">-->
+<!--	&lt;!&ndash; bootstrap-progressbar &ndash;&gt;-->
+<!--	<link href="../layui/css/bootstrap-progressbar-3.3.4.min.css"-->
+<!--		rel="stylesheet">-->
+<!--	&lt;!&ndash; JQVMap &ndash;&gt;-->
+<!--	<link href="../layui/css/jqvmap.min.css" rel="stylesheet" />-->
+<!--	<link href="../layui/css/dropzone.min.css" rel="stylesheet">-->
+<!--	&lt;!&ndash; Custom Theme Style &ndash;&gt;-->
+<!--	<link href="../layui/css/custom.min.css" rel="stylesheet">-->
+</head>
+<body>
+<div class="col-md-12">
+    		<div class="x_panel" >
+    			<div class="x_title">
+    				<h2>
+    					用户列表
+    				</h2>
+    			</div>
+    			<div class="x_content">
+    				<form class="layui-form">
+    					<input type="hidden" name="pageIndex" value="1" />
+    					<ul>
+    						<li>
+    								<label>用户账号</label>
+									<div class="layui-input-inline">
+									      <input type="text" name="name" id="name" placeholder="请输入" autocomplete="off" class="layui-input">
+									</div>
+    						</li>
+    						<li>
+    								<label>用户状态</label>
+    								<div class="layui-input-block">
+    									<select name="status" id="status" class="form-control">
+    										<option value="0">--请选择--</option>
+    									</select>
+    								</div>
+    						</li>
+    						<li>
+								<button class="searchSubmit">
+    								查 &nbsp;&nbsp;&nbsp;&nbsp;询</button>
+							</li>
+    					</ul>
+    				</form>
+    			</div>
+    		</div>
+    	</div>
+
+
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_content">
+            <p class="text-muted font-13 m-b-30"></p>
+            <div id="datatable-responsive_wrapper"
+                 class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="layui-hide" id="test" lay-filter="test"></table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="box" id="updPwd" style="width: 800px" hidden="hidden">
+	<h1><span class="close">x</span></h1>
+	<h1>修改密码</h1>
+	<form>
+		<p><input class="userid" value=""></p>
+		<p>原密码：<input id="password" placeholder="请输入"></p>
+		<p>新密码：<input id="passwordi" placeholder="请输入"></p>
+		<p>确认密码：<input id="passwordz" placeholder="请输入"></p>
+		<button id="updPwdSubmit">保存</button><button class="close">取消</button>
+	</form>
+</div>
+<div class="box" id="updInfo" style="width: 800px;height: 500px;" hidden="hidden">
+	<h1><span class="close">x</span></h1>
+	<h1>编辑用户</h1>
+	<form>
+		<p><input class="uid" value=""></p>
+		<p>用户账号：<input id="userName"></p>
+		<p>用户角色：
+			<div id="roleList">
+				
+			</div>
+		</p>
+		<p>状态：<select id="userStatus"><option value="0">请选择</option></select></p>
+		<input type="button" id="updInfoSubmit" value="保存"/><button class="close">取消</button>
+	</form>
+</div>
+<script type="text/html" id="barDemo">
+	<div class="layui-btn-container">
+	    <button class="layui-btn layui-btn-sm" lay-event="upd">编辑</button>
+		<button class="layui-btn layui-btn-sm" lay-event="del">删除</button>
+		<button class="layui-btn layui-btn-sm" lay-event="updPwd">修改密码</button>
+	</div>
+</script>
+<script>
+    layui.use(['table','form'], function() {
+		var table = layui.table;
+		var form = layui.form;
+		var $ = layui.$;
+		var token = $.cookie('token');
+		//alert(token);
+		$('.close').click(function(){
+			$('.box').hide();
+		})
+		form.render('select');
+        initi();
+		$(".searchSubmit").click(function(){
+			initi();
+			return false;
+		})
+		$("#updPwdSubmit").click(function(){
+			$.ajax({
+				type : "POST",
+				url : "http://localhost:8182/call/user/updPwd",
+				dataType : "JSON",
+				beforeSend: function(xhr){
+					xhr.setRequestHeader('token', token);
+				},success : function(d) {	
+					//alert(d);
+				},
+				data :{
+					'id': $("#userid").val(),
+					'password': $("#password").val(),
+					'password2': $("#passwordi").val(),
+				},
+				error:function(){
+					layer.alert('请求失败，稍后再试', {icon: 5});
+				}
+
+			});
+		});
+		$("#updInfoSubmit").click(function(){
+			var date = document.getElementsByName("role");
+			//然后我们去得到这个多选框的长度
+			var thisLength = date.length;
+			//使用字符串数组，用于存放选择好了的数据
+			var str = new Array();
+			for(var i = 0;i < thisLength;i++) {
+			    if (date[i].checked == true) {
+			        str[i] = date[i].value;//这个是获取多选框中的值
+			    }
+			}
+			//循环遍历，在控制台输出我们所选择的值
+			// for(var j in str){
+			// 	console.log(str[j]);
+			// }
+			alert(str);
+			$.ajax({
+				type : "POST",
+				url : "http://localhost:8182/call/user/updInfo",
+				data:{
+					role : str,
+					id : $(".uid").val(),
+					name : $("#userName").val(),
+					status : $("#userStatus").val()
+				},
+				dataType : "JSON",
+				beforeSend: function(xhr){
+					xhr.setRequestHeader('token', token);
+				},
+				error:function(){
+					layer.alert('请求失败，稍后再试', {icon: 5});
+				}
+			})
+		});
+		$.ajax({
+			type : "GET",
+			url : "http://localhost:8182/call/user/getStatusList",
+			dataType : "JSON",
+			beforeSend: function(xhr){
+				xhr.setRequestHeader('token', token);
+			},
+			success : function(d) {	
+				 var tmp = '<option value="0">--请选择--</option>';
+				 $("#status").html(tmp);
+				 for (var i in d.data) {
+					 tmp += '<option value="' + d.data[i].id +  '">' + d.data[i].statusName + '</option>';
+				}
+				 $("#status").html(tmp);
+				 form.render();
+			},
+			error:function(){
+				layer.alert('请求失败，稍后再试', {icon: 5});
+			}
+		});
+        function initi() {
+				layui.use(['table','form'], function() {
+				var table = layui.table;
+				var form = layui.form;
+				$ =layui.$;
+                var status = $('#status').val();
+                var name = $('#name').val();
+                table.render({
+                    elem: '#test',
+                    url: 'http://localhost:8182/call/user/getUserlist',
+                    method: 'GET',
+                    cellMinWidth: 80,
+                    height: 400,
+                    width: 1330,
+                    cols: [[{field: 'name', title: '用户账号', width: '130px;', style: 'font-size:13px;'}
+                        , {field: 'roleName', title: '用户角色', style: 'font-size:13px;', width: '130px;'}
+                        , {field: 'statusName',width: '100px;',title: '状态',style: 'font-size:13px; height:auto;overflow:visible;text-overflow:inherit; white-space:normal;'}
+                        , {field: 'status', hide: true, style: 'font-size:13px;'}
+                        , {field: 'rid', hide: true, style: 'font-size:13px;'}
+                        , {field: 'uid', hide: true, style: 'font-size:13px;'}
+                        , {field: 'urid', hide: true, style: 'font-size:13px;'}
+                        , {title: '操作', align: 'center', toolbar: '#barDemo', width: '259px;'}
+                    ]],
+					headers: {
+						token: token,
+					},
+                    page: true,
+                    request: {
+                        pageName: 'start',
+                        limitName: 'size'
+                    },
+                    where: {
+                        status: status,
+                        name: name
+                    },
+                    page: 1,
+                    limit: 5,
+                    parseData:function(res){
+                        return {
+                            "code":0,
+                            "msg":res.message,
+                            "count":res.count,
+                            "data":res.data
+                        }
+                    },
+                    limits: [3, 5, 8]
+                });
+				table.on('tool(test)',function(obj){
+					console.log(obj.data.uid);
+					switch(obj.event){
+					    case 'upd':
+						form.render();
+						$(".uid").val(obj.data.uid);
+						$("#userName").val(obj.data.name);
+						var str =new Array();
+						$.ajax({
+							type : "GET",
+							url : "http://localhost:8182/call/user/getURList",
+							data:{uid:obj.data.uid},
+							dataType : "JSON",
+							beforeSend: function(xhr){
+								xhr.setRequestHeader('token', token);
+							},success : function(d) {
+								for(var i in d.data){
+									str.push(d.data[i].roleId);
+								}
+							},
+							error:function(){
+								layer.alert('请求失败，稍后再试', {icon: 5});
+							}
+						});
+						$.ajax({
+							type : "GET",
+							url : "http://localhost:8182/call/user/getRoleList",
+							dataType : "JSON",
+							beforeSend: function(xhr){
+								xhr.setRequestHeader('token', token);
+							},success : function(d) {
+								console.log(str);
+								var tmp='';
+								$("#roleList").html(tmp);
+								for(var i in d.data){
+									if(str[i]==d.data[i].id){
+										tmp+='<input checked="checked" type="checkbox" name="role" value="'+d.data[i].id+'">'+d.data[i].roleName
+									}else{
+										tmp+='<input type="checkbox" name="role" value="'+d.data[i].id+'">'+d.data[i].roleName
+									}
+								}
+								$("#roleList").html(tmp);
+							},
+							error:function(){
+								layer.alert('请求失败，稍后再试', {icon: 5});
+							}
+								
+						});
+						var status = obj.data.status;
+						$.ajax({
+							type : "GET",
+							url : "http://localhost:8182/call/user/getStatusList",
+							dataType : "JSON",
+							beforeSend: function(xhr){
+								xhr.setRequestHeader('token', token);
+							},
+							success : function(d) {	
+								 var tmp = '<option value="0">--请选择--</option>';
+								 $("#userStatus").html(tmp);
+								 for (var i in d.data) {
+									 if(status==d.data[i].id){
+										tmp += '<option selected="selected" value="' + d.data[i].id +  '">' + d.data[i].statusName + '</option>';
+									 }else{
+										tmp += '<option value="' + d.data[i].id +  '">' + d.data[i].statusName + '</option>';
+									 }
+								}
+								 $("#userStatus").html(tmp);
+							},
+							error:function(){
+								layer.alert('请求失败，稍后再试', {icon: 5});
+							}
+						});
+						$("#updInfo").show();
+						break;
+						case 'updPwd':
+						$(".userid").val(obj.data.uid);
+							$("#updPwd").show();
+						break;
+					}
+				});
+
+			});
+
+        }
+    })
+
+</script>
+</body>
+</html>
