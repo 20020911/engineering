@@ -2,11 +2,7 @@ server:
   port: 8001
 spring:
   application:
-<<<<<<< HEAD
     name: eureka-project-controller
-=======
-    name: product-controller
->>>>>>> 4404850b24f46639af38509eb6a52a9eb7ccabc9
   profiles:
     active: dev
   datasource:
@@ -14,11 +10,7 @@ spring:
     url: jdbc:mysql://localhost:3306/engineeringdb?userUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&userSSL=true
     type: com.alibaba.druid.pool.DruidDataSource
     username: root
-<<<<<<< HEAD
-    password: root
-=======
     password: 123456
->>>>>>> 4404850b24f46639af38509eb6a52a9eb7ccabc9
     hikari:
       pool-name: GuliHikariPool
       maximum-pool-size: 12
@@ -26,42 +18,27 @@ spring:
       minimum-idle: 10
       idle-timeout: 5000000
       max-lifetime: 5400000
-<<<<<<< HEAD
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
-=======
->>>>>>> 4404850b24f46639af38509eb6a52a9eb7ccabc9
   redis:
     database: 0
     host: localhost
     port: 6379
-<<<<<<< HEAD
-    password: root
-    timeout: 0
-
-=======
     password: 123456
     timeout: 0
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: GMT+8
 mybatis:
   mapper-locations: classpath:com/example/mapper/*.xml
   type-aliases-package: org.example.entity
   configuration:
     map-underscore-to-camel-case: true
->>>>>>> 4404850b24f46639af38509eb6a52a9eb7ccabc9
 logging:
   level:
     root: warn
 ribbon:
   eureka:
     enabled: true
-<<<<<<< HEAD
 management:
   health:
     redis:
       enabled: false
-=======
->>>>>>> 4404850b24f46639af38509eb6a52a9eb7ccabc9

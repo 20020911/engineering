@@ -9,53 +9,177 @@
 <div class="xm">
     <div class="xm-d1">
         <p class="xm-d1-p">菜单管理</p>
+
     </div>
+    <div class="xm-d1">
 
+    </div>
     <div class="xm-d2">
-<<<<<<< HEAD
-
-        <div class="xm-d2-hang2">
-            <table id="permissionTable" class="layui-table" lay-filter="permissionTable"></table>
-=======
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">项目名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="menuName" lay-verify="menuName" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">url地址</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="url" lay-verify="text" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">查询</button>
+                </div>
+            </div>
+        </form>
         <div class="xm-d2-hang2">
             <table id="table1" class="layui-table" lay-filter="table1"></table>
->>>>>>> 4404850b24f46639af38509eb6a52a9eb7ccabc9
         </div>
+        <span><a href="addMenu.html" style="text-align: right;color: #801a1a">新增菜单</a></span>
     </div>
+
 
     <script type="text/javascript" src="assets/libs/jquery-3.2.1.min.js"></script>
     <script src="layui/layui.js" type="text/javascript"></script>
     <script type="text/javascript" src="js/jquery.cookie.js"></script>
-
+    <script type="text/html" id="tbBar">
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
 <script>
     layui.config({
         base:'layui/'
     }).extend({
-        treetable:"treetable-lay/treetable"
+        treeTable:"treetable-lay/treeTable"
     });
-    layui.use(['treetable', 'table', 'layer'], function () {
+    layui.use(['treeTable', 'table', 'layer','form'], function () {
         var $ = layui.$;
+        var form = layui.form;
         var table = layui.table;
         var layer = layui.layer;
-        var treetable = layui.treetable;
+        var treeTable = layui.treeTable;
         var menuName ="";
-        var status = -1;
+        var url = "";
         var token = $.cookie('token');
-        init();
-        function init(){
+        var insTb;
+        treeTables();
+        form.on('submit(demo1)',function(data){
+            menuName = data.field.menuName;
+            url = data.field.url;
+            treeTables();
+            return false;
+        })
+        function treeTables(){
+            insTb = treeTable.render({
+            elem: '#table1',
+            tree: {
+                iconIndex: 1,  // 折叠图标显示在第几列
+                idName: 'id',  // 自定义id字段的名称
+                pidName: 'parentId',  // 自定义标识是否还有子节点的字段名称
+                haveChildName: 'haveChild',  // 自定义标识是否还有子节点的字段名称
+                isPidData: true  // 是否是pid形式数据
+            },
+            defaultToolbar: ['filter', 'print', 'exports', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [
+                {type: 'checkbox', fixed: 'left'},
+                {field: 'id', title: 'id'},
+                {field: 'menuName', title: '名称', width: 220},
+                {field: 'url', title: '路径'},
+                {field: 'parentId', title: 'parentId'},
+                {field: 'createdDate', title: '创建时间'},
+                {field: 'orderNum', title: '序号'},
+                {align: 'center', toolbar: '#tbBar', title: '操作', width: 120}
+            ],
+            reqData: function (data, callback) {
+                // 在这里写ajax请求，通过callback方法回调数据
+                $.ajax({
+                    url: 'http://localhost:8182/sumer/menuList',
+                    method: "post",
+                    data: {
+                        "menuName": menuName,
+                        "url": url
+                    },
+                    dataType: "json",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('token', token);
+                    },
+                    success: function (datas) {
+                        if (datas.code != "0") {
+                            alert(JSON.stringify(datas.message));
+
+                        }
+                        callback(datas.data);
+                    }, error: function (data) {
+                        alert("发送异常");
+                    }
+                })
+            }
+            , height: 'full-99'
+        });
+        }
+       treeTable.on('tool(table1)',function(obj){
+           var even = obj.event;
+          if(even=="edit"){
+            var index  = layer.open({
+                title:"编辑菜单",
+                type: 2,
+                shade: 0.2,
+                maxmin: true,
+                shadeClose: true,
+                area: ['55%', '90%'],
+                content:"menuUpdate.html?id="+obj.data.id,
+                end:function(){
+                    treeTables();
+                }
+            })
+
+          }
+          if(even=="del"){
+              menuListById(obj.data.id)
+           }
+       })
+        function menuListById(id){
+           $.ajax({
+               url:"http://localhost:8182/sumer/menu/countMenuList/"+id,
+               type:"get",
+               dataType:"json",
+               beforeSend: function(xhr){
+                   xhr.setRequestHeader('token',token);
+               },
+               success:function(data){
+                   var count = data.data;
+                   if(data.code!='200'){
+                       alert(data.message);
+                   }else{
+                       if(count>0){
+                           alert("该菜单下包含子菜单，无法删除！");
+                       }else{
+                           if(window.confirm("是否删除此菜单")){
+                               del(id);
+                           }
+                       }
+                   }
+               },error:function(data){
+                   alert("发生异常！");
+               }
+           })
+        }
+        function del(id) {
             $.ajax({
-                url: 'http://localhost:8182/sumer/menuList',
-                method:"post",
-                data:{
-                    "menuName":menuName,
-                    "status":status
-                },
+                url:"http://localhost:8182/sumer/menu/delMenuById/"+id,
+                type:"delete",
                 dataType:"json",
                 beforeSend: function(xhr){
                     xhr.setRequestHeader('token',token);
                 },
-                success:function(data){
 <<<<<<< HEAD
+                success:function(data){
 
                     if(data.code !='200'){
                         alert(JSON.stringify(data.message));
@@ -64,64 +188,14 @@
                     treetables(data.data);
                     alert(JSON.stringify(data));
 =======
-                    if(data.code =="4001"){
-                        alert(JSON.stringify(data.message));
-                        location.href="login.html";
-                    }
-                    trtable(data.data);
+                success:function(data) {
+                    alert(data.message);
+                    treeTables();
 >>>>>>> 4404850b24f46639af38509eb6a52a9eb7ccabc9
                 },error:function(data){
-                    alert("发送异常");
+                    alert("发生异常！");
                 }
             })
-        }
-<<<<<<< HEAD
-        function treetables(data) {
-
-            treetable.render({
-=======
-
-
-        function trtable(data) {
-            layer.load(2);
-            treetable.render({
-                data:data,
-                isPidData: true,
->>>>>>> 4404850b24f46639af38509eb6a52a9eb7ccabc9
-                treeColIndex: 1,          // treetable新增参数
-                treeSpid: 0,             // treetable新增参数
-                treeIdName: 'id',       // treetable新增参数
-                treePidName: 'parentId',     // treetable新增参数
-                treeDefaultClose: true,   // treetable新增参数
-                treeLinkage: true,        // treetable新增参数
-<<<<<<< HEAD
-                elem: '#permissionTable',
-                data: data,
-                type: "post",
-                cols: [[
-                    {type: 'numbers'},
-                    {field: 'id', title: 'id'},
-                    {field: 'name', title: 'name'},
-                    {field: 'sex', title: 'sex'},
-                    {field: 'pid', title: 'pid'},
-                ]]
-=======
-                page:"false",
-                elem: '#table1',
-                cols: [[
-                    {type: 'radio'},
-                    {field: 'id', title: 'id'},
-                    {field: 'menuName', title: 'menuName'},
-                    {field: 'parentId', title: 'parentId'},
-                    {field: 'url', title: 'url'},
-                    {field: 'createdDate', title: 'createdDate'},
-                ]],done: function () {
-                    layer.closeAll('loading');
-                },error:function(da){
-                    alert("发送异常");
-                }
->>>>>>> 4404850b24f46639af38509eb6a52a9eb7ccabc9
-            });
         }
     })
 </script>

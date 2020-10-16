@@ -31,10 +31,19 @@ public class User {
     private Date updatedDate;
     private int createdBy;
     private Date createdDate;
+
+    public int getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(int departmentId) {
+        this.departmentId = departmentId;
+    }
+
     private char sex;
     private int status;
     private String salt;
-
+    private int departmentId;
     public String getSalt() {
         return salt;
     }

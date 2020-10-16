@@ -39,31 +39,26 @@
            dataType:"json",
            data:{},
            beforeSend: function(xhr){
-<<<<<<< HEAD
-=======
                //alert("发送之前的设置...... "+token);
->>>>>>> 4404850b24f46639af38509eb6a52a9eb7ccabc9
                xhr.setRequestHeader('token', token);
            },
            success:function(data){
-               alert(JSON.stringify(data));
                if(data.code =="4001"){
+                   alert(JSON.stringify(data.message));
                    location.href="login.html";
                }
                if(data.code =="600"){
-                   location.href="login.html";
+                   alert(JSON.stringify(data.message));
+                   //location.href="login.html";
                }
                var menus = data.data;
+               // alert(JSON.stringify(menus));
                tree.render({
                    elem: '#test',  //绑定元素
                    data: menus,//返回的数据
                    isJump:true, //点击事件
                    target:"content",
-<<<<<<< HEAD
-                   id: 'demoId',
-=======
                    id: 'demoId1',
->>>>>>> 4404850b24f46639af38509eb6a52a9eb7ccabc9
                    accordion: true,//手风琴模式
                    click:function(){
                        $(".layui-tree-txt").attr("target", "content");

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.PeopleMapper">
+    <select id="getPeopleList" resultType="com.example.vo.PeopleVo">
+        SELECT d.`name` department,u.* FROM USER u,department d WHERE d.id=u.`departmentId`
+        <if test="name!=null and name!=''">AND u.`name` LIKE CONCAT('%',#{name},'%')</if>
+        limit #{start},#{size}
+    </select>
+    <select id="getPeopleListCount" resultType="Integer">
+        SELECT count(*) FROM USER u,department d WHERE d.id=u.`departmentId`
+        <if test="name!=null and name!=''">AND u.`name` LIKE CONCAT('%',#{name},'%')</if>
+    </select>
+    <select id="getDepList" resultType="com.example.entity.Department">
+       SELECT * FROM department
+    </select>
+</mapper>

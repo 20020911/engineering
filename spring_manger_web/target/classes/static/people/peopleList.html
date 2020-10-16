@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../assets/libs/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../layui/layui.js"></script>
+    <script type="text/javascript" src="../js/jquery.cookie.js"></script>
+    <link href="../layui/css/layui.css" type="text/css" rel="stylesheet"/>
+    <link href="../layui/css/project.css" type="text/css" rel="stylesheet"/>
+
+    <!--	-->                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+    <!--	&lt;!&ndash; Bootstrap &ndash;&gt;-->
+    <!--	<link href="../layui/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--	&lt;!&ndash; Font Awesome &ndash;&gt;-->
+    <!--	<link href="../layui/css/font-awesome.min.css" rel="stylesheet">-->
+    <!--	&lt;!&ndash; NProgress &ndash;&gt;-->
+    <!--	<link href="../layui/css/nprogress.css" rel="stylesheet">-->
+    <!--	&lt;!&ndash; Custom Theme Style &ndash;&gt;-->
+    <!--	<link href="../layui/css/custom.min.css" rel="stylesheet">-->
+    <!--	<link href="../layui/css/userView.css" rel="stylesheet" />-->
+    <!--	<link href="../layui/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>-->
+    <!--    <link href="../layui/css/styles.css" type="text/css" rel="stylesheet"/>-->
+    <!--	  <link href="../layui/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">-->
+    <!--	  <link href="../layui/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--	&lt;!&ndash; Font Awesome &ndash;&gt;-->
+    <!--	<link href="../layui/css/font-awesome.min.css" rel="stylesheet">-->
+    <!--	&lt;!&ndash; NProgress &ndash;&gt;-->
+    <!--	<link href="../layui/css/nprogress.css" rel="stylesheet">-->
+    <!--	&lt;!&ndash; iCheck &ndash;&gt;-->
+    <!--	<link href="../layui/css/green.css" rel="stylesheet">-->
+    <!--	&lt;!&ndash; bootstrap-progressbar &ndash;&gt;-->
+    <!--	<link href="../layui/css/bootstrap-progressbar-3.3.4.min.css"-->
+    <!--		rel="stylesheet">-->
+    <!--	&lt;!&ndash; JQVMap &ndash;&gt;-->
+    <!--	<link href="../layui/css/jqvmap.min.css" rel="stylesheet" />-->
+    <!--	<link href="../layui/css/dropzone.min.css" rel="stylesheet">-->
+    <!--	&lt;!&ndash; Custom Theme Style &ndash;&gt;-->
+    <!--	<link href="../layui/css/custom.min.css" rel="stylesheet">-->
+</head>
+<body>
+<div class="col-md-12">
+    <div class="x_panel" >
+        <div class="x_title">
+            <h2>
+                账户列表
+            </h2>
+        </div>
+        <div class="x_content">
+            <form class="layui-form">
+                <input type="hidden" name="pageIndex" value="1" />
+                <ul>
+                    <li>
+                        <label>负责人姓名</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="name" id="name" placeholder="请输入" autocomplete="off" class="layui-input">
+                        </div>
+                    </li>
+                    <li>
+                        <button class="searchSubmit">
+                            查 &nbsp;&nbsp;&nbsp;&nbsp;询</button>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_content">
+            <p class="text-muted font-13 m-b-30"></p>
+            <div id="datatable-responsive_wrapper"
+                 class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="layui-hide" id="test" lay-filter="test"></table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="barDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="del">删除</button>
+    </div>
+</script>
+<script>
+    layui.use(['table','form'], function() {
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.$;
+        var token = $.cookie('token');
+        //alert(token);
+        $('.close').click(function(){
+            $('.box').hide();
+        })
+        form.render('select');
+        initi();
+        $(".searchSubmit").click(function(){
+            initi();
+            return false;
+        })
+        $("#updInfoSubmit").click(function(){
+			
+		});
+		var cols;
+        function initi() {
+            layui.use(['table','form'], function() {
+                var table = layui.table;
+                var form = layui.form;
+                $ =layui.$;
+                var name = $('#name').val();
+                cols=table.render({
+                    elem: '#test',
+                    url: 'http://localhost:8182/call/people/getPeopleList',
+                    method: 'GET',
+                    cellMinWidth: 80,
+                    height: 400,
+                    width: 1330,
+                    cols: [[ {field: 'email', title: '账号', style: 'font-size:13px;', width: '130px;'}
+						,{field: 'name', title: '负责人', width: '130px;', style: 'font-size:13px;'}
+                        , {field: 'department', title: '角色', style: 'font-size:13px;', width: '130px;'}
+						, {field: 'phone', title: '电话', style: 'font-size:13px;', width: '130px;'}
+						, {field: 'address', title: '地址', style: 'font-size:13px;', width: '130px;'}
+						, {field: 'age', title: '年龄', style: 'font-size:13px;', width: '50px;'}
+						, {field: 'birth', title: '生日', style: 'font-size:13px;', width: '130px;'}
+						, {field: 'createdDate', title: '创建时间', style: 'font-size:13px;', width: '130px;'}
+                        , {field: 'sex',width: '50px;',title: '性别',style: 'font-size:13px; height:auto;overflow:visible;text-overflow:inherit; white-space:normal;'}
+                        , {field: 'salt', title: '描述',width: '100px;', style: 'font-size:13px;'}
+                        , {field: 'id', hide: true, style: 'font-size:13px;'}
+                        , {title: '操作', align: 'center', toolbar: '#barDemo', width: '259px;'}
+                    ]],
+                    headers: {
+                        token: token,
+                    },
+                    page: true,
+                    request: {
+                        pageName: 'start',
+                        limitName: 'size'
+                    },
+                    where: {
+                        name: name
+                    },
+                    page: 1,
+                    limit: 5,
+                    parseData:function(res){
+                        return {
+                            "code":0,
+                            "msg":res.message,
+                            "count":res.count,
+                            "data":res.data
+                        }
+                    },
+                    limits: [3, 5, 8]
+                });
+                table.on('tool(test)',function(obj){
+                    console.log(obj.data.id);
+                    switch(obj.event){
+                        case 'upd':
+                            
+                            $("#updInfo").show();
+                            break;
+						case 'del':
+							$.ajax({
+								type : "POST",
+								url : "http://localhost:8182/call/people/delPeople",
+								data:{id:obj.data.id},
+								dataType : "JSON",
+								beforeSend: function(xhr){
+									xhr.setRequestHeader('token', token);
+								},success : function(d) {
+									alert(d.message);
+									cols.reload({
+									    where:{
+									        "name":name
+									    },
+									    page:{
+											curr:1,
+										}
+									});
+
+								},
+								error:function(){
+									layer.alert('请求失败，稍后再试', {icon: 5});
+								}
+							});
+						break;
+                    }
+                });
+
+            });
+
+        }
+    })
+
+</script>
+</body>
+</html>

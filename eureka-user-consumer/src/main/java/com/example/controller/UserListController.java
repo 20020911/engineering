@@ -30,6 +30,7 @@ public class UserListController {
         //System.out.println("---------------------------"+userListMapperClient.getStatusList().toString());
         return userListMapperClient.getStatusList();
     }
+
     @RequestMapping(value = "/updPwd",method = RequestMethod.POST)
     public ResponseBean updPwd(@RequestParam("password")String password,@RequestParam("password2")String password2, @RequestParam("id")Integer id){
         System.out.println("password:"+password+"------password2"+password2+"-----id"+id);
@@ -40,6 +41,14 @@ public class UserListController {
         }
         System.out.println("nnnnnnnnnnnnnnnnnnnnnn");
         return ResponseBean.error("用户密码不正确");
+    }
+    @RequestMapping(value = "/delRole",method = RequestMethod.POST)
+    public ResponseBean delRole(@RequestParam("rid")Integer rid,@RequestParam("uid")Integer uid){
+        System.out.println("rid:"+rid+"------uid"+uid);
+        User_Role u = new User_Role();
+        u.setRoleId(rid);
+        u.setUserId(uid);
+        return userListMapperClient.delRole(u);
     }
     @RequestMapping(value = "/getRoleList",method = RequestMethod.GET)
     public ResponseBean getRoleList(){

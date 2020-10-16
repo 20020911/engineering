@@ -26,6 +26,7 @@ public class ProjectController {
             @RequestParam(value = "size",defaultValue = "3")int size){
         ResponseData data = new ResponseData();
         try {
+            start = (start-1)*size;
             int count = projectService.getProjectListCount(name, manager, state);
             List<PorjectListVO> list = projectService.getProjectList(name,manager,state,start,size);
             if(list!=null){
@@ -98,10 +99,7 @@ public class ProjectController {
         try {
             int count = projectService.updProject(project);
             if(count>0){
-<<<<<<< HEAD
                 System.out.println("修改成功"+project.toString());
-=======
->>>>>>> 4404850b24f46639af38509eb6a52a9eb7ccabc9
                 data.setMsg("修改成功");
                 data.setCode(200);
                 data.setData(count);

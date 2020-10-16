@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>角色列表</title>
+    <link rel="stylesheet" href="layui/css/layui.css" type="text/css">
+</head>
+<body>
+<form class="layui-form" action="">
+    <div class="xm-d1">
+        <p class="xm-d1-p">角色列表</p><br>
+    </div>
+    <div class="layui-form">
+        <div class="layui-form-item" id="forms" >
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">角色名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="roleName" lay-verify="text" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">角色状态</label>
+                    <div class="layui-input-block" style="width: 200px;">
+                        <select name="status" lay-filter="aihao" id="status">
+                            <option value="-1">请选择</option>
+                            <option value="0">未启用</option>
+                            <option value="1">启用</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">查询</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+</form>
+<span><a href="addRole.html" style="text-align: right;color: #801a1a"><b>新增角色</b></a></span>
+<div style="position: absolute;top: 260px;left: 30px;">
+    <table id="roleList" width="1250" class="layui-hide"  lay-filter="roleList"></table>
+</div>
+<script src="assets/libs/jquery-3.2.1.min.js"type="text/javascript"></script>
+<script src="layui/layui.js"type="text/javascript"></script>
+<script src="js/jquery.cookie.js" type="text/javascript"></script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-xs" lay-event="show">操作角色下的用户信息</a>
+</script>
+<script type="text/html" id="xuhao">
+    {{d.LAY_TABLE_INDEX+1}}
+</script>
+<script>
+    layui.use(['layer','table','form'],function(){
+        var $ = layui.$,form=layui.form,layer = layui.layer,table = layui.table;
+        form.render('select');
+        var roleName ="";
+        var status = -1;
+        var token = $.cookie("token");
+        var cols;
+        var roleName=""
+        form.on('submit(demo1)',function(data){
+            roleName= data.field.roleName;
+            status = data.field.status;
+            cols.reload({
+                where:{
+                    "roleName":roleName,
+                    "status":status,
+                },
+                page:{
+                    curr:1,
+                }
+            });
+            return false;
+        })
+        table.on('tool(roleList)',function(obj){
+            var data = obj.data;
+
+            if(obj.event ==='edit'){
+               alert("该功能还在开发,抱歉。。。");
+            }
+            if(obj.event ==='del'){
+
+                if(window.confirm("是否删除该角色？")){
+                    del(data.id);
+                }
+            }
+            if(obj.event ==='show'){
+                $.cookie("roleId",data.id);
+                location.href="userRoleList.html";
+            }
+        })
+        function del(id){
+            $.ajax({
+                url:"http://localhost:8182/sumer/role/delRole/"+id,
+                type:"delete",
+                dataType:"json",
+                beforeSend: function(xhr){
+                    //alert("发送之前的设置...... "+token);
+                    xhr.setRequestHeader('token', token);
+                },
+                success:function(data){
+                    alert(data.message);
+                    cols.reload({
+                        where:{
+                            "roleName":roleName,
+                            "status":status,
+                        },
+                        page:{
+                            curr:1,
+                        }
+                    });
+                },error:function(msg){
+                    alert("发送异常！");
+                }
+            })
+        }
+        cols=table.render({
+            elem:"#roleList",
+            url:"http://localhost:8182/sumer/role/roleList",
+            method:"post",
+            width:1270,
+            headers:{
+                token:token
+            },
+            cols:[[
+                {title: '序号',templet: '#xuhao'},
+                {title:'id',field:'id'},
+                {title:'角色名称',field:'roleName'},
+                {title:'备注',field:'remark'},
+                {title:'创建时间',field:'createdDate',templet:"<div>{{layui.util.toDateString(d.creationDate,'yyyy-MM-dd HH:mm:ss')}}</div>"},
+                {title:'状态',templet:function(data){
+                    return data.status==0?"未启用":"启用";
+                }},
+                {fixed: 'right', title:'操作', toolbar: '#barDemo', width:300}
+            ]],
+
+            page : true,
+            request: {
+                page:'page',
+                limitName: 'pageSize'
+            }, where:{
+                "roleName":roleName,
+                "status":status
+            },
+            page:1,
+            limit:5,
+            parseData: function(res) { //res 即为原始返回的数据
+                return {
+                    "code": 0,
+                    "msg": res.message,
+                    "count": res.count,
+                    "data": res.data
+                };
+            },error:function(data){
+              alert(JSON.stringify(data));
+            },
+            limits: [5,7, 10]
+        })
+    })
+</script>
+</body>
+</html>

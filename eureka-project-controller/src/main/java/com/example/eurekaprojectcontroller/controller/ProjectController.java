@@ -26,6 +26,7 @@ public class ProjectController {
             @RequestParam(value = "size",defaultValue = "3")int size){
         ResponseData data = new ResponseData();
         try {
+            start = (start-1)*size;
             int count = projectService.getProjectListCount(name, manager, state);
             List<PorjectListVO> list = projectService.getProjectList(name,manager,state,start,size);
             if(list!=null){

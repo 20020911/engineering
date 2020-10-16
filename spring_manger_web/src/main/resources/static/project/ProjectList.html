@@ -305,6 +305,7 @@
 		$("#add").click(function () {
 			$("#addsub").show();
 		})
+		var cols;
         function initi() {
 				layui.use(['table','form'], function() {
 				var table = layui.table;
@@ -313,7 +314,7 @@
                 var manager = $('#manager').val();
                 var name = $('#name').val();
                 var state = $('#state').val();
-                table.render({
+                cols=table.render({
                     elem: '#test',
                     url: 'http://localhost:8002/call/project/getList',
                     method: 'GET',
@@ -443,10 +444,30 @@
 						});
 						break;
 						case 'del':
-							$.post(
-							"http://localhost:8002/call/project/delPro/"+obj.data.id,
-							 function(data) {}
-						);
+						$.ajax({
+							type : "POST",
+							url : "http://localhost:8002/call/project/delPro/"+obj.data.id,
+							dataType : "JSON",
+							beforeSend: function(xhr){
+								xhr.setRequestHeader('token', token);
+							},success : function(d) {
+								alert(d.message);
+								cols.reload({
+								    where:{
+								        manager: manager,
+								        name: name,
+								        state: state
+								    },
+								    page:{
+										curr:1,
+									}
+								});
+						
+							},
+							error:function(){
+								layer.alert('请求失败，稍后再试', {icon: 5});
+							}
+						});
 						break;
 					}
 				});
